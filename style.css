@@ -66,6 +66,10 @@ header {
 	font-size: 200%;
 	font-weight: 700;
 	text-transform: uppercase;
+transition-duration: 100ms;
+transition-timing-function: ease-out;
+transition-property: color,
+background-color;
 }
 
 [mv-app="game"] > .mv-ui.mv-message.mv-deleted {
@@ -127,6 +131,94 @@ header {
 
 	[mv-app="keyboard"] [mv-list="keys"]>button:not(.absent, .elsewhere, .correct):hover {
 		--bg: hsl(223 27% 82%);
+	}
+
+[mv-app="popup"] {
+	display: none;
+	inline-size: clamp(20em, 50%, 30em);
+	max-block-size: 100%;
+	padding: 0.7em 1em;
+	padding-block-start: 1.2em;
+
+	text-align: center;
+
+	position: absolute;
+	inset-inline-start: 50%;
+	inset-block-start: 30%;
+	transform: translate(-50%, -30%);
+
+	border-radius: 0.5em;
+
+	background-color: whitesmoke;
+	box-shadow: 0 0 0 10000px rgb(255 255 255 / 50%), 0 0 40px rgb(0 0 0 / 40%);
+
+	font-size: 150%;
+}
+
+[mv-app="popup"].visible {
+	display: revert;
+}
+
+	[mv-app="popup"]>[property="message"] {
+		padding: 1em 1.7em;
+
+		text-transform: uppercase;
+
+		border-radius: 5px;
+		background: hsl(222 48% 95%);
+		border: 2px dashed hsl(221 20% 82%);
+	}
+
+	[mv-app="popup"]>[property="message"]::before {
+		content: "Your guess is:";
+
+		position: absolute;
+		inset-block-start: 1.35em;
+		inset-inline-start: 1.5em;
+
+		font-size: 75%;
+		font-weight: 200;
+
+		text-transform: initial;
+	}
+
+	[mv-app="popup"].game-over.lost>[property="message"]::before {
+		content: "🥺 You lost! The hidden word was:";
+	}
+
+	[mv-app="popup"].game-over.won>[property="message"] {
+		font-size: 150%;
+		font-weight: bold;
+	}
+
+	[mv-app="popup"].game-over.won>[property="message"]::before {
+		content: "";
+	}
+
+	[mv-app="popup"]>button {
+		margin-block-end: 0.7em;
+		padding: 0.7em 0.7em;
+
+		border: none;
+		border-radius: 0.3em;
+
+		color: whitesmoke;
+		background: hsl(120 34% 51%);
+		box-shadow: 0 4px 0 hsl(120 68% 33%);
+
+		font-family: inherit;
+		font-size: 70%;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+
+		transition: background-color 0.2s;
+
+		cursor: pointer;
+	}
+
+	[mv-app="popup"]>button:is(:hover, :active) {
+		background-color: hsl(120 34% 58%);
 	}
 
 footer {

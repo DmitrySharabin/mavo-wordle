@@ -26,13 +26,16 @@
 		<section mv-app="game" mv-bar="none">
 			<meta property="hiddenWord" content="[wordleList.randomWord]" mv-if="false" />
 
-			<meta property="tryNum" content="[count(tries) + 1]" />
+			<meta property="isOver" content="[false]" />
+			<meta property="result" />
+
+			<meta property="attempt" content="[count(attempts) + 1]" />
 			<meta property="wordToCheck" content="[join(wordLetters)]" />
 			<meta property="wordValid" content="[wordToCheck in wordleList.words]" />
 
 			<div mv-list="usedLetters" mv-initial-items="0">
 				<span mv-list-item style="--row: [floor($index / 5) + 1]"
-					class="[if(tryNum > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = $item, correct, if(contains(hiddenWord, $item), elsewhere, absent)))]"></span>
+					class="[if(attempt > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = $item, correct, if(contains(hiddenWord, $item), elsewhere, absent)))]"></span>
 			</div>
 
 			<div mv-list="wordLetters" mv-initial-items="0" mv-if="false">
@@ -43,7 +46,7 @@
 				<span></span>
 			</div>
 
-			<div mv-list="tries" mv-initial-items="0" mv-if="false">
+			<div mv-list="attempts" mv-initial-items="0" mv-if="false">
 				<span mv-list-item></span>
 			</div>
 		</section>
@@ -53,15 +56,30 @@
 				<button mv-list-item
 					mv-action="addif(count(game.wordLetters) < 5, key, game.usedLetters) addif(count(game.wordLetters) < 5, key, game.wordLetters)"
 					mv-attribute="data-key"
-					class="[if(game.tryNum > 1, if(contains(join(game.tries), key), if(key in game.correctLetters, correct, if(contains(game.hiddenWord, key), elsewhere, absent))))]"
+					class="[if(game.attempt > 1, if(contains(join(game.attempts), key), if(key in game.correctLetters, correct, if(contains(game.hiddenWord, key), elsewhere, absent))))]"
 					style="--row: [row]">[key]</button>
 
 					<button mv-action="deleteif(count(game.wordLetters) > 0, last(game.usedLetters)) delete(last(game.wordLetters))" style="--row: 3; --column: 1">⌫</button>
 
-					<button mv-action="if(count(game.wordLetters) = 5 and game.tryNum <= 6 and game.wordValid,
-						add(game.wordToCheck, game.tries) & add(condense(filter(game.wordLetters, split(game.hiddenWord, '') = game.wordLetters)), game.correctLetters) & clear(game.wordLetters))
+					<button
+						mv-action="
+							if(0 < count(game.wordLetters) < 5, set(popup.message, 'Too short') & set(popup.cta, 'Continue') & set(popup.isShowing, true))
+							if(count(game.wordLetters) = 5 and game.attempt <= 6 and !game.wordValid, set(popup.message, 'Not a valid word') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
+							if(count(game.wordLetters) = 5 and game.attempt = 6 and game.wordValid and game.wordToCheck != game.hiddenWord, set(game.isOver, true) & set(game.result, 'lost') & set(popup.message, game.hiddenWord) & set(popup.cta, 'Play again') & set(popup.isShowing, true))
+							if(count(game.wordLetters) = 5 and game.wordToCheck = game.hiddenWord, set(game.isOver, true) & set(game.result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & set(popup.isShowing, true))
+							if(count(game.wordLetters) = 5 and game.attempt <= 6 and game.wordValid, add(game.wordToCheck, game.attempts) & add(condense(filter(game.wordLetters, split(game.hiddenWord, '') = game.wordLetters)), game.correctLetters) & clear(game.wordLetters))
 					" style="--row: 3; --column: 9">⏎</button>
 			</div>
+		</section>
+
+		<section mv-app="popup" mv-bar="none" class="[if(isShowing, visible)] [if(game.isOver, 'game-over')] [game.result]">
+			<meta property="isShowing" content="[false]" />
+
+			<p property="message"></p>
+			<button property="cta" mv-attribute="none" mv-action="
+					if(game.isOver, set(wordleList.randomWord, first(shuffle(wordleList.words))) & clear(game.usedLetters, game.correctLetters, game.attempts) & set(game.result, '') & set(game.isOver, false))
+					set(isShowing, false)
+				"></button>
 		</section>
 
 		<!-- Credit: https://github.com/tabatkins/wordle-list -->
