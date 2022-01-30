@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="author" content="Dmitry Sharabin" />
+	<meta name="keywords" content="HTML,CSS,Mavo" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<!-- Mavo -->
+	<link rel="stylesheet prefetch" href="https://get.mavo.io/mavo.css" />
+	<script src="https://get.mavo.io/mavo.js"></script>
+
+	<link rel="stylesheet prefetch" href="style.css" />
+	<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🔮</text></svg>' />
+
+	<title>Wordle Game</title>
+</head>
+
+<body>
+	<header mv-app>
+		<h1>Wordle Game</h1>
+	</header>
+
+	<main>
+		<section mv-app="game" mv-bar="none">
+			<meta property="hiddenWord" content="[wordleList.randomWord]" mv-if="false" />
+
+			<meta property="tryNum" content="[count(tries) + 1]" />
+			<meta property="wordToCheck" content="[join(wordLetters)]" />
+			<meta property="wordValid" content="[wordToCheck in wordleList.words]" />
+
+			<div mv-list="usedLetters" mv-initial-items="0">
+				<span mv-list-item style="--row: [floor($index / 5) + 1]"
+					class="[if(tryNum > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = $item, correct, if(contains(hiddenWord, $item), elsewhere, absent)))]"></span>
+			</div>
+
+			<div mv-list="wordLetters" mv-initial-items="0" mv-if="false">
+				<span mv-list-item></span>
+			</div>
+
+			<div mv-list="correctLetters" mv-if="false">
+				<span></span>
+			</div>
+
+			<div mv-list="tries" mv-initial-items="0" mv-if="false">
+				<span mv-list-item></span>
+			</div>
+		</section>
+
+		<section mv-app="keyboard" mv-source="keyboard.json" mv-bar="none">
+			<div mv-list="keys">
+				<button mv-list-item
+					mv-action="addif(count(game.wordLetters) < 5, key, game.usedLetters) addif(count(game.wordLetters) < 5, key, game.wordLetters)"
+					mv-attribute="data-key"
+					class="[if(game.tryNum > 1, if(contains(join(game.tries), key), if(key in game.correctLetters, correct, if(contains(game.hiddenWord, key), elsewhere, absent))))]"
+					style="--row: [row]">[key]</button>
+
+					<button mv-action="deleteif(count(game.wordLetters) > 0, last(game.usedLetters)) delete(last(game.wordLetters))" style="--row: 3; --column: 1">⌫</button>
+
+					<button mv-action="if(count(game.wordLetters) = 5 and game.tryNum <= 6 and game.wordValid,
+						add(game.wordToCheck, game.tries) & add(condense(filter(game.wordLetters, split(game.hiddenWord, '') = game.wordLetters)), game.correctLetters) & clear(game.wordLetters))
+					" style="--row: 3; --column: 9">⏎</button>
+			</div>
+		</section>
+
+		<!-- Credit: https://github.com/tabatkins/wordle-list -->
+		<section mv-app="wordleList" mv-source="wordleList.json" mv-bar="none">
+			<meta property="randomWord" content="[first(shuffle(words))]" mv-if="false" />
+		</section>
+	</main>
+
+	<footer>
+		Made with <a href="https://mavo.io"><img src="https://mavo.io/logo.svg" alt="Mavo logo" /></a>
+	</footer>
+
+</body>
+
+</html>

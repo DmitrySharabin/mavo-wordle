@@ -1,0 +1,173 @@
+/* Basic Styling */
+html {
+	box-sizing: border-box;
+	font-family: "Montserrat", "Open Sans", system-ui, Helvetica, Arial, sans-serif;
+	color: hsl(223 21% 27%);
+	background-color: hsl(60 17% 98%);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+html,
+body {
+	inline-size: 100vw;
+	block-size: 100vh;
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	padding: 2em;
+	text-align: center;
+}
+
+	header h1 {
+		margin: 0;
+		font-weight: 400;
+		font-variant: small-caps;
+	}
+
+[mv-app="game"] [mv-list="usedLetters"] {
+	--size: 4em;
+
+	margin-inline: auto;
+	margin-block-end: 3em;
+	inline-size: min-content;
+
+	display: grid;
+	grid-template-columns: repeat(5, var(--size));
+	grid-template-rows: repeat(6, var(--size));
+	gap: 0.3em;
+
+	background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="4.3em" height="4.3em"><defs><clipPath id="clip"><rect width="4em" height="4em" rx="0.4em" /></clipPath></defs><rect width="4em" height="4em" rx="0.4em" fill="transparent" stroke="%239aa6b499" stroke-width="0.2em" clip-path="url(%23clip)" /></svg>');
+}
+
+[mv-app="game"] [mv-list="usedLetters"]>[mv-list-item] {
+	inline-size: 100%;
+	margin: 0;
+
+	grid-row: var(--row, auto);
+
+	display: grid;
+	place-content: center;
+
+	background-color: var(--bg, transparent);
+
+	border-radius: 0.2em;
+	border-color: #9aa6b499;
+
+	aspect-ratio: 1;
+
+	color: var(--color, inherit);
+	font-size: 200%;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+[mv-app="game"] > .mv-ui.mv-message.mv-deleted {
+	display: none;
+}
+
+[mv-app="keyboard"] [mv-list="keys"] {
+	margin-inline: auto;
+	inline-size: min-content;
+
+	display: grid;
+	grid-template-columns: repeat(10, 3em);
+	grid-template-rows: repeat(3, auto);
+	gap: 0.35em;
+}
+
+	[mv-app="keyboard"] [mv-list="keys"] > button {
+		position: relative;
+		inset-inline-start: calc(var(--on, 1) * 1.25em);
+
+		inline-size: 100%;
+		aspect-ratio: 1;
+
+		grid-row: var(--row, auto);
+		grid-column: var(--column, auto);
+
+		border: none;
+		border-radius: 0.3em;
+
+		color: var(--color, hsl(221 13% 41%));
+		background-color: var(--bg, hsl(222 32% 90%));
+
+		font-size: 120%;
+		font-weight: 600;
+		text-transform: uppercase;
+
+		cursor: pointer;
+	}
+
+	[mv-app="keyboard"] [mv-list="keys"]>button[style*="--row: 1"] {
+		--on: 0;
+	}
+
+	:where([mv-app="game"] [mv-list="usedLetters"], [mv-app="keyboard"] [mv-list="keys"])>:where(button, [mv-list-item]).absent {
+		--bg: hsl(219 20% 70%);
+	}
+
+	:where([mv-app="game"] [mv-list="usedLetters"], [mv-app="keyboard"] [mv-list="keys"])>:where(button, [mv-list-item]).elsewhere {
+		--bg: hsl(44, 89%, 58%);
+	}
+
+	:where([mv-app="game"] [mv-list="usedLetters"], [mv-app="keyboard"] [mv-list="keys"])>:where(button, [mv-list-item]).correct {
+		--bg: hsl(97 42% 52%);
+	}
+
+	:where([mv-app="game"] [mv-list="usedLetters"], [mv-app="keyboard"] [mv-list="keys"])>:where(button, [mv-list-item]):is(.absent, .elsewhere, .correct) {
+		--color: whitesmoke;
+	}
+
+	[mv-app="keyboard"] [mv-list="keys"]>button:not(.absent, .elsewhere, .correct):hover {
+		--bg: hsl(223 27% 82%);
+	}
+
+footer {
+	position: absolute;
+	inset: 0;
+	inset-inline-end: initial;
+	inset-block-end: initial;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 0.1em;
+	align-items: center;
+	justify-content: center;
+	padding: .4em 4.8em;
+	font-size: 85%;
+	background: hsl(350 80% 55%);
+	color: hsl(41 61% 90%);
+	transform: rotate(90deg) translateX(70%) rotate(-90deg) rotate(-45deg) translateY(-100%);
+	transform-origin: 0 0;
+	box-shadow: 0 0.1em 0 0.1em hsl(0 0% 0% / 0.15);
+}
+
+	footer img {
+		inline-size: 3.5em;
+	}
+
+	footer img:not(:hover) {
+		filter: grayscale(100%) brightness(400%);
+	}
+
+@media (max-width: 415px) {
+	footer {
+		gap: 0.3em;
+		inset-inline-end: 0;
+		padding: 0.7em 3em;
+		flex-direction: revert;
+		transform: revert;
+	}
+
+	footer a {
+		display: flex;
+		align-self: stretch;
+	}
+}
