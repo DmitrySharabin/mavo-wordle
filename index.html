@@ -31,12 +31,12 @@
 
 			<meta property="attempt" content="[count(attempts) + 1]" />
 			<meta property="wordToCheck" content="[join(wordLetters)]" />
-			<meta property="wordLength" content="[count(wordLetters)]" />
+			<meta property="wordLength" content="[len(wordToCheck)]" />
 			<meta property="wordValid" content="[wordToCheck in wordleList.words]" />
 
 			<button id="give-up" style="visibility: [if(attempt > 1, visible, hidden)]"
 				mv-action="if(!popup.isShowing, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & set(popup.isShowing, true))"
-			>💔 Give	up</button>
+			>💔 Give up</button>
 
 			<div mv-list="usedLetters" mv-initial-items="0">
 				<span mv-list-item style="--row: [floor($index / 5) + 1]"
