@@ -170,7 +170,9 @@ header {
 	}
 
 [mv-app="popup"] {
-	display: none;
+	visibility: hidden;
+	opacity: 0;
+
 	inline-size: clamp(20em, 50%, 30em);
 	padding: 0.7em 1em;
 	padding-block-start: 1.2em;
@@ -191,7 +193,10 @@ header {
 }
 
 [mv-app="popup"].visible {
-	display: revert;
+	visibility: revert;
+	opacity: revert;
+
+	transition: opacity 0.15s;
 }
 
 	[mv-app="popup"]>[property="message"] {
@@ -309,7 +314,7 @@ header {
 	}
 
 	[mv-app="game"] [mv-list="usedLetters"] {
-		background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="3.425em" height="3.425em"><defs><clipPath id="clip"><rect width="3.23em" height="3.23em" rx="0.4em" /></clipPath></defs><rect width="3.23em" height="3.23em" rx="0.4em" fill="transparent" stroke="%239aa6b499" stroke-width="0.15em" clip-path="url(%23clip)" /></svg>');
+		background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="3.425em" height="3.425em"><defs><clipPath id="clip"><rect width="3.23em" height="3.23em" rx="0.3em" /></clipPath></defs><rect width="3.23em" height="3.23em" rx="0.3em" fill="transparent" stroke="%239aa6b499" stroke-width="0.15em" clip-path="url(%23clip)" /></svg>');
 	}
 
 	#keyboard {
@@ -338,7 +343,7 @@ header {
 	}
 }
 
-@media (max-width: 375px) {
+@media (max-width: 360px) {
 	#keyboard {
 		font-size: 80%;
 	}
