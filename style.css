@@ -203,7 +203,7 @@ main {
 	visibility: hidden;
 	opacity: 0;
 
-	inline-size: clamp(20em, 50%, 30em);
+	min-inline-size: 15em;
 	padding: 0.7em 1em;
 	padding-block-start: 1.2em;
 
