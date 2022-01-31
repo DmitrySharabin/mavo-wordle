@@ -66,9 +66,9 @@ header {
 	font-size: 200%;
 	font-weight: 700;
 	text-transform: uppercase;
-transition-duration: 100ms;
-transition-timing-function: ease-out;
-transition-property: color, background-color;
+	transition-duration: 100ms;
+	transition-timing-function: ease-out;
+	transition-property: color, background-color;
 }
 
 [mv-app="game"] > .mv-ui.mv-message.mv-deleted {
