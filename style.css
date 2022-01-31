@@ -66,6 +66,36 @@ header {
 			background-color: hsl(44, 89%, 58%);
 		}
 
+main {
+	max-inline-size: 560px;
+	margin-inline: auto;
+}
+
+#give-up {
+	block-size: 2.5em;
+	padding: 0.1em 0.5em;
+	margin-inline-start: 2em;
+	margin-block-end: 1.3em;
+
+	border-radius: 0.5em;
+	border: 2px solid transparent;
+
+	color: hsl(339 24% 58%);
+	background: #f2e4e7;
+
+	font-size: 90%;
+	font-weight: 700;
+
+	transition: border-color 0.2s;
+
+	cursor: pointer;
+}
+
+#give-up:where(:hover, :active, :focus) {
+	border-style: dotted;
+	border-color: hsl(339 24% 70%);
+}
+
 [mv-app="game"] [mv-list="usedLetters"] {
 	--size: 4em;
 

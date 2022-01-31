@@ -34,6 +34,10 @@
 			<meta property="wordLength" content="[count(wordLetters)]" />
 			<meta property="wordValid" content="[wordToCheck in wordleList.words]" />
 
+			<button id="give-up" style="visibility: [if(attempt > 1, visible, hidden)]"
+				mv-action="if(!popup.isShowing, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & set(popup.isShowing, true))"
+			>💔 Give	up</button>
+
 			<div mv-list="usedLetters" mv-initial-items="0">
 				<span mv-list-item style="--row: [floor($index / 5) + 1]"
 					class="[if(attempt > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = $item, correct, if(contains(hiddenWord, $item), elsewhere, absent)))]"></span>
@@ -81,7 +85,7 @@
 
 			<p property="message"></p>
 			<button property="cta" mv-attribute="none" mv-action="
-					if(game.isOver, set(wordleList.randomWord, first(shuffle(wordleList.words))) & clear(game.usedLetters, game.correctLetters, game.attempts) & set(game.isOver, false))
+					if(game.isOver, set(wordleList.randomWord, first(shuffle(wordleList.words))) & clear(game.usedLetters, game.correctLetters, game.wordLetters, game.attempts) & set(game.isOver, false))
 					set(isShowing, false)
 				"></button>
 		</section>
