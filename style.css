@@ -72,6 +72,8 @@ main {
 }
 
 #give-up {
+	visibility: hidden;
+
 	block-size: 2.5em;
 	padding: 0.1em 0.5em;
 	margin-inline-start: 2em;
@@ -94,6 +96,10 @@ main {
 #give-up:where(:hover, :active, :focus) {
 	border-style: dotted;
 	border-color: hsl(339 24% 70%);
+}
+
+#give-up.visible {
+	visibility: revert;
 }
 
 [mv-app="game"] [mv-list="usedLetters"] {

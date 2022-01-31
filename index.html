@@ -34,7 +34,7 @@
 			<meta property="wordLength" content="[len(wordToCheck)]" />
 			<meta property="wordValid" content="[wordToCheck in wordleList.words]" />
 
-			<button id="give-up" style="visibility: [if(attempt > 1, visible, hidden)]"
+			<button id="give-up" class="[if(attempt > 1, visible)]"
 				mv-action="if(!popup.isShowing, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & set(popup.isShowing, true))"
 			>💔 Give up</button>
 
