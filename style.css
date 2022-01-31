@@ -170,7 +170,6 @@ header {
 [mv-app="popup"] {
 	display: none;
 	inline-size: clamp(20em, 50%, 30em);
-	max-block-size: 100%;
 	padding: 0.7em 1em;
 	padding-block-start: 1.2em;
 
@@ -298,6 +297,31 @@ header {
 	}
 
 @media (max-width: 415px) {
+	header {
+		margin-block-start: 2.2em;
+		font-size: 60%;
+	}
+
+	main {
+		font-size: 80%;
+	}
+
+	[mv-app="game"] [mv-list="usedLetters"] {
+		background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="3.425em" height="3.425em"><defs><clipPath id="clip"><rect width="3.23em" height="3.23em" rx="0.4em" /></clipPath></defs><rect width="3.23em" height="3.23em" rx="0.4em" fill="transparent" stroke="%239aa6b499" stroke-width="0.15em" clip-path="url(%23clip)" /></svg>');
+	}
+
+	#keyboard {
+		font-size: 85%;
+	}
+
+	[mv-app="popup"] {
+		font-size: 100%;
+	}
+
+	#attribution {
+		margin-block-start: 2em;
+	}
+
 	#ribbon {
 		gap: 0.3em;
 		inset-inline-end: 0;
@@ -309,5 +333,11 @@ header {
 	#ribbon a {
 		display: flex;
 		align-self: stretch;
+	}
+}
+
+@media (max-width: 375px) {
+	#keyboard {
+		font-size: 80%;
 	}
 }
