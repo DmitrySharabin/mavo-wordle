@@ -121,6 +121,8 @@ header {
 }
 
 	#keyboard [mv-list="keys"] > button {
+		padding: 0;
+
 		position: relative;
 		inset-inline-start: calc(var(--on, 1) * 1.25em);
 
