@@ -43,7 +43,7 @@ header {
 			--color: hsl(219 20% 70%);
 
 			display: inline-block;
-			min-inline-size: 2em;
+			min-inline-size: 1.5em;
 			padding: 0.2em 0.3em;
 
 			border-radius: inherit;
