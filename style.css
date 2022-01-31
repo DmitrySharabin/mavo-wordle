@@ -220,7 +220,21 @@ transition-property: color, background-color;
 		background-color: hsl(120 34% 58%);
 	}
 
-footer {
+#attribution {
+	margin-block-start: 5em;
+
+	font-size: 80%;
+	font-weight: 300;
+	text-align: center;
+	line-height: 1.5;
+}
+
+#attribution a {
+	color: inherit;
+	font-weight: 500;
+}
+
+#ribbon {
 	position: absolute;
 	inset: 0;
 	inset-inline-end: initial;
@@ -240,16 +254,16 @@ footer {
 	box-shadow: 0 0.1em 0 0.1em hsl(0 0% 0% / 0.15);
 }
 
-	footer img {
+	#ribbon img {
 		inline-size: 3.5em;
 	}
 
-	footer img:not(:hover) {
+	#ribbon img:not(:hover) {
 		filter: grayscale(100%) brightness(400%);
 	}
 
 @media (max-width: 415px) {
-	footer {
+	#ribbon {
 		gap: 0.3em;
 		inset-inline-end: 0;
 		padding: 0.7em 3em;
@@ -257,7 +271,7 @@ footer {
 		transform: revert;
 	}
 
-	footer a {
+	#ribbon a {
 		display: flex;
 		align-self: stretch;
 	}
