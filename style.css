@@ -1,9 +1,11 @@
 /* Basic Styling */
 html {
+	--bg-color: hsl(60 17% 98%);
+
 	box-sizing: border-box;
 	font-family: "Montserrat", "Open Sans", system-ui, Helvetica, Arial, sans-serif;
 	color: hsl(223 21% 27%);
-	background-color: hsl(60 17% 98%);
+	background-color: var(--bg-color);
 }
 
 *,
@@ -22,14 +24,47 @@ body {
 
 header {
 	padding: 2em;
+
+	font-size: 70%;
 	text-align: center;
 }
 
 	header h1 {
-		margin: 0;
-		font-weight: 400;
-		font-variant: small-caps;
+		border-radius: 0.25em;
+
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		text-transform: uppercase;
+
+		color: white;
 	}
+
+		header h1>* {
+			--color: hsl(219 20% 70%);
+
+			display: inline-block;
+			min-inline-size: 2em;
+			padding: 0.2em 0.3em;
+
+			border-radius: inherit;
+
+			color: var(--color);
+			background-color: var(--color);
+		}
+
+		header h1>span:first-of-type {
+			margin-inline-end: 0.2em;
+
+			color: inherit;
+			background-color: hsl(97 42% 52%);
+		}
+
+		header h1>span:last-of-type {
+			margin-inline-start: 0.2em;
+
+			color: inherit;
+			background-color: hsl(44, 89%, 58%);
+		}
 
 [mv-app="game"] [mv-list="usedLetters"] {
 	--size: 4em;
