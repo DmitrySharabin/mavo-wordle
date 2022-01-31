@@ -85,9 +85,9 @@
 
 			<p property="message"></p>
 			<button property="cta" mv-attribute="none" mv-action="
-					if(game.isOver, set(wordleList.randomWord, first(shuffle(wordleList.words))) & clear(game.usedLetters, game.correctLetters, game.wordLetters, game.attempts) & set(game.isOver, false))
-					set(isShowing, false)
-				"></button>
+				if(game.isOver, set(wordleList.randomWord, first(shuffle(wordleList.words))) & clear(game.usedLetters, game.correctLetters, game.wordLetters, game.attempts) & set(game.isOver, false))
+				set(isShowing, false)
+			"></button>
 		</section>
 
 		<section mv-app="keyboardLayout" mv-source="keyboard.json" mv-bar="none">
