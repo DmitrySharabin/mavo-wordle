@@ -68,15 +68,14 @@ header {
 	text-transform: uppercase;
 transition-duration: 100ms;
 transition-timing-function: ease-out;
-transition-property: color,
-background-color;
+transition-property: color, background-color;
 }
 
 [mv-app="game"] > .mv-ui.mv-message.mv-deleted {
 	display: none;
 }
 
-[mv-app="keyboard"] [mv-list="keys"] {
+#keyboard [mv-list="keys"] {
 	margin-inline: auto;
 	inline-size: min-content;
 
@@ -86,7 +85,7 @@ background-color;
 	gap: 0.35em;
 }
 
-	[mv-app="keyboard"] [mv-list="keys"] > button {
+	#keyboard [mv-list="keys"] > button {
 		position: relative;
 		inset-inline-start: calc(var(--on, 1) * 1.25em);
 
@@ -109,27 +108,27 @@ background-color;
 		cursor: pointer;
 	}
 
-	[mv-app="keyboard"] [mv-list="keys"]>button[style*="--row: 1"] {
+	#keyboard [mv-list="keys"]>button[style*="--row: 1"] {
 		--on: 0;
 	}
 
-	:where([mv-app="game"] [mv-list="usedLetters"], [mv-app="keyboard"] [mv-list="keys"])>:where(button, [mv-list-item]).absent {
+	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"])>:where(button, [mv-list-item]).absent {
 		--bg: hsl(219 20% 70%);
 	}
 
-	:where([mv-app="game"] [mv-list="usedLetters"], [mv-app="keyboard"] [mv-list="keys"])>:where(button, [mv-list-item]).elsewhere {
+	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"])>:where(button, [mv-list-item]).elsewhere {
 		--bg: hsl(44, 89%, 58%);
 	}
 
-	:where([mv-app="game"] [mv-list="usedLetters"], [mv-app="keyboard"] [mv-list="keys"])>:where(button, [mv-list-item]).correct {
+	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"])>:where(button, [mv-list-item]).correct {
 		--bg: hsl(97 42% 52%);
 	}
 
-	:where([mv-app="game"] [mv-list="usedLetters"], [mv-app="keyboard"] [mv-list="keys"])>:where(button, [mv-list-item]):is(.absent, .elsewhere, .correct) {
+	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"])>:where(button, [mv-list-item]):is(.absent, .elsewhere, .correct) {
 		--color: whitesmoke;
 	}
 
-	[mv-app="keyboard"] [mv-list="keys"]>button:not(.absent, .elsewhere, .correct):hover {
+	#keyboard [mv-list="keys"]>button:not(.absent, .elsewhere, .correct):hover {
 		--bg: hsl(223 27% 82%);
 	}
 

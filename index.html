@@ -18,7 +18,7 @@
 </head>
 
 <body>
-	<header mv-app>
+	<header>
 		<h1>Wordle Game</h1>
 	</header>
 
@@ -31,6 +31,7 @@
 
 			<meta property="attempt" content="[count(attempts) + 1]" />
 			<meta property="wordToCheck" content="[join(wordLetters)]" />
+			<meta property="wordLength" content="[count(wordLetters)]" />
 			<meta property="wordValid" content="[wordToCheck in wordleList.words]" />
 
 			<div mv-list="usedLetters" mv-initial-items="0">
@@ -38,37 +39,40 @@
 					class="[if(attempt > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = $item, correct, if(contains(hiddenWord, $item), elsewhere, absent)))]"></span>
 			</div>
 
+			<div id="keyboard">
+				<div mv-list="keys" mv-value="keyboardLayout.keys">
+					<button mv-list-item mv-group
+						mv-action="if(!popup.isShowing and wordLength < 5, add(key, usedLetters) & add(key, wordLetters))"
+						mv-attribute="data-key"
+						class="[if(attempt > 1, if(contains(join(attempts), key), if(key in correctLetters, correct, if(contains(hiddenWord, key), elsewhere, absent))))]"
+						style="--row: [row]">[key]</button>
+
+					<button
+						mv-action="deleteif(!popup.isShowing and wordLength > 0, last(game.usedLetters)) deleteif(!popup.isShowing, last(game.wordLetters))"
+						style="--row: 3; --column: 1">⌫</button>
+
+					<button mv-action="
+						if(0 < wordLength < 5, set(popup.message, 'Too short') & set(popup.cta, 'Continue') & set(popup.isShowing, true))
+						if(wordLength = 5 and attempt <= 6 and !wordValid, set(popup.message, 'Not a valid word') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
+
+						if(wordLength = 5 and attempt = 6 and wordValid and wordToCheck != hiddenWord, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & set(popup.isShowing, true))
+						if(wordLength = 5 and wordToCheck = hiddenWord, set(isOver, true) & set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & set(popup.isShowing, true))
+
+						if(wordLength = 5 and attempt <= 6 and wordValid, add(wordToCheck, attempts) & add(condense(filter(wordLetters, split(hiddenWord, '') = wordLetters)), correctLetters) & clear(wordLetters))
+					" style="--row: 3; --column: 9">⏎</button>
+				</div>
+			</div>
+
 			<div mv-list="wordLetters" mv-initial-items="0" mv-if="false">
 				<span mv-list-item></span>
 			</div>
 
-			<div mv-list="correctLetters" mv-if="false">
+			<div mv-list="correctLetters" mv-initial-items="0" mv-if="false">
 				<span></span>
 			</div>
 
 			<div mv-list="attempts" mv-initial-items="0" mv-if="false">
 				<span mv-list-item></span>
-			</div>
-		</section>
-
-		<section mv-app="keyboard" mv-source="keyboard.json" mv-bar="none">
-			<div mv-list="keys">
-				<button mv-list-item
-					mv-action="addif(count(game.wordLetters) < 5, key, game.usedLetters) addif(count(game.wordLetters) < 5, key, game.wordLetters)"
-					mv-attribute="data-key"
-					class="[if(game.attempt > 1, if(contains(join(game.attempts), key), if(key in game.correctLetters, correct, if(contains(game.hiddenWord, key), elsewhere, absent))))]"
-					style="--row: [row]">[key]</button>
-
-					<button mv-action="deleteif(count(game.wordLetters) > 0, last(game.usedLetters)) delete(last(game.wordLetters))" style="--row: 3; --column: 1">⌫</button>
-
-					<button
-						mv-action="
-							if(0 < count(game.wordLetters) < 5, set(popup.message, 'Too short') & set(popup.cta, 'Continue') & set(popup.isShowing, true))
-							if(count(game.wordLetters) = 5 and game.attempt <= 6 and !game.wordValid, set(popup.message, 'Not a valid word') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
-							if(count(game.wordLetters) = 5 and game.attempt = 6 and game.wordValid and game.wordToCheck != game.hiddenWord, set(game.isOver, true) & set(game.result, 'lost') & set(popup.message, game.hiddenWord) & set(popup.cta, 'Play again') & set(popup.isShowing, true))
-							if(count(game.wordLetters) = 5 and game.wordToCheck = game.hiddenWord, set(game.isOver, true) & set(game.result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & set(popup.isShowing, true))
-							if(count(game.wordLetters) = 5 and game.attempt <= 6 and game.wordValid, add(game.wordToCheck, game.attempts) & add(condense(filter(game.wordLetters, split(game.hiddenWord, '') = game.wordLetters)), game.correctLetters) & clear(game.wordLetters))
-					" style="--row: 3; --column: 9">⏎</button>
 			</div>
 		</section>
 
@@ -80,6 +84,10 @@
 					if(game.isOver, set(wordleList.randomWord, first(shuffle(wordleList.words))) & clear(game.usedLetters, game.correctLetters, game.attempts) & set(game.result, '') & set(game.isOver, false))
 					set(isShowing, false)
 				"></button>
+		</section>
+
+		<section mv-app="keyboardLayout" mv-source="keyboard.json" mv-bar="none">
+			<meta property="keys" mv-if="false" />
 		</section>
 
 		<!-- Credit: https://github.com/tabatkins/wordle-list -->
