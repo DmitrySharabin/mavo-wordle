@@ -76,12 +76,12 @@
 			</div>
 		</section>
 
-		<section mv-app="popup" mv-bar="none" class="[if(isShowing, visible)] [if(game.isOver, 'game-over')] [game.result]">
+		<section mv-app="popup" mv-bar="none" class="[if(isShowing, visible)] [if(game.isOver, 'game-over ' & game.result)]">
 			<meta property="isShowing" content="[false]" />
 
 			<p property="message"></p>
 			<button property="cta" mv-attribute="none" mv-action="
-					if(game.isOver, set(wordleList.randomWord, first(shuffle(wordleList.words))) & clear(game.usedLetters, game.correctLetters, game.attempts) & set(game.result, '') & set(game.isOver, false))
+					if(game.isOver, set(wordleList.randomWord, first(shuffle(wordleList.words))) & clear(game.usedLetters, game.correctLetters, game.attempts) & set(game.isOver, false))
 					set(isShowing, false)
 				"></button>
 		</section>
