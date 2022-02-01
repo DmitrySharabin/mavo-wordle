@@ -197,7 +197,7 @@ main {
 		--bg: hsl(97 42% 52%);
 	}
 
-	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"])>:where(button, [mv-list-item]):is(.absent, .elsewhere, .correct) {
+	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"])>:where(button, [mv-list-item]):where(.absent, .elsewhere, .correct) {
 		--color: whitesmoke;
 	}
 
@@ -293,7 +293,7 @@ main {
 		cursor: pointer;
 	}
 
-	[mv-app="popup"]>button:is(:hover, :active) {
+	[mv-app="popup"]>button:where(:hover, :active) {
 		background-color: hsl(120 34% 58%);
 	}
 
