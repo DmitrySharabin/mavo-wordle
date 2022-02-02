@@ -201,7 +201,7 @@ main {
 		--color: whitesmoke;
 	}
 
-	#keyboard [mv-list="keys"]>button:not(.absent, .elsewhere, .correct):hover {
+	#keyboard [mv-list="keys"]>button:not(.absent, .elsewhere, .correct):where(:hover, :active, :focus) {
 		--bg: hsl(223 27% 82%);
 	}
 
@@ -293,7 +293,7 @@ main {
 		cursor: pointer;
 	}
 
-	[mv-app="popup"]>button:where(:hover, :active) {
+	[mv-app="popup"]>button:where(:hover, :active, :focus) {
 		background-color: hsl(120 34% 58%);
 	}
 
@@ -306,10 +306,10 @@ main {
 	line-height: 1.5;
 }
 
-#attribution a {
-	color: inherit;
-	font-weight: 500;
-}
+	#attribution a {
+		color: inherit;
+		font-weight: 500;
+	}
 
 #ribbon {
 	position: absolute;
@@ -335,7 +335,7 @@ main {
 		inline-size: 3.5em;
 	}
 
-	#ribbon img:not(:hover) {
+	#ribbon img:not(:hover, :active, :focus) {
 		filter: grayscale(100%) brightness(400%);
 	}
 
