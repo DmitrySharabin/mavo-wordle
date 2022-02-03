@@ -163,25 +163,35 @@ main {
 
 #keyboard [mv-list="keys"] {
 	margin-inline: auto;
-	inline-size: min-content;
 
-	display: grid;
-	grid-template-columns: repeat(10, 3em);
-	grid-template-rows: repeat(3, auto);
+	display: flex;
+	flex-wrap: wrap;
+	align-content: stretch;
+	justify-content: space-between;
 	gap: 0.35em;
+}
+
+#keyboard [mv-list="keys"]:where(::before, ::after) {
+	content: "";
+	flex-basis: 100%;
+	block-size: 0;
+}
+
+#keyboard [mv-list="keys"]::before {
+	order: 20;
+}
+
+#keyboard [mv-list="keys"]::after {
+	order: 39;
 }
 
 	#keyboard [mv-list="keys"] > button {
 		padding: 0;
 
-		position: relative;
-		inset-inline-start: calc(var(--on, 1) * 1.25em);
-
-		inline-size: 100%;
-		aspect-ratio: 1;
-
-		grid-row: var(--row, auto);
-		grid-column: var(--column, auto);
+		flex-grow: 1;
+		flex-basis: 2.6em;
+		block-size: 3em;
+		order: var(--order);
 
 		border: none;
 		border-radius: 0.3em;
@@ -196,8 +206,8 @@ main {
 		cursor: pointer;
 	}
 
-	#keyboard [mv-list="keys"]>button[style*="--row: 1"] {
-		--on: 0;
+	#keyboard [mv-list="keys"]>button:where(#enter, #bs) {
+		flex-basis: 4em;
 	}
 
 	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"])>:where(button, [mv-list-item]).absent {
@@ -354,6 +364,26 @@ main {
 		filter: grayscale(100%) brightness(400%);
 	}
 
+@media (max-width: 550px) {
+	#keyboard {
+		--padding: 0.2em;
+		--size: 415px;
+
+		max-inline-size: calc(var(--size) - var(--padding));
+		margin-inline: auto;
+		padding-inline: var(--padding);
+		font-size: 80%;
+	}
+
+	#keyboard [mv-list="keys"]>button {
+		flex-basis: 2.3em;
+	}
+
+	#keyboard [mv-list="keys"]>button:where(#enter, #bs) {
+		flex-basis: 4em;
+	}
+}
+
 @media (max-width: 415px) {
 	header {
 		margin-block-start: 2.2em;
@@ -369,7 +399,15 @@ main {
 	}
 
 	#keyboard {
-		font-size: 85%;
+		--size: 375px;
+	}
+
+	#keyboard [mv-list="keys"]>button {
+		flex-basis: 2.6em;
+	}
+
+	#keyboard [mv-list="keys"]>button:where(#enter, #bs) {
+		flex-basis: 4.5em;
 	}
 
 	[mv-app="popup"] {
@@ -395,7 +433,7 @@ main {
 }
 
 @media (max-width: 360px) {
-	#keyboard {
-		font-size: 80%;
+	#keyboard [mv-list="keys"]>button:where(#enter, #bs) {
+		flex-basis: 4.2em;
 	}
 }
