@@ -51,11 +51,11 @@
 						class="[if(attempt > 1, if(contains(join(attempts), key), if(key in correctLetters, correct, if(contains(hiddenWord, key), elsewhere, absent))))]"
 						style="--row: [row]">[key]</button>
 
-					<button
+					<button id="bs"
 						mv-action="deleteif(wordLength > 0, last(game.usedLetters)) delete(last(game.wordLetters))"
-						style="--row: 3; --column: 1">⌫</button>
+						style="--row: 3; --column: 9">⌫</button>
 
-					<button mv-action="
+					<button id="enter" mv-action="
 						if(0 < wordLength < 5, set(popup.message, 'Too short') & set(popup.cta, 'Continue') & set(popup.isShowing, true))
 						if(wordLength = 5 and attempt <= 6 and !wordValid, set(popup.message, 'Not a valid word') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
 
@@ -63,7 +63,7 @@
 						if(wordLength = 5 and wordToCheck = hiddenWord, set(isOver, true) & set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & set(popup.isShowing, true))
 
 						if(wordLength = 5 and attempt <= 6 and wordValid, add(wordToCheck, attempts) & add(condense(filter(wordLetters, split(hiddenWord, '') = wordLetters)), correctLetters) & clear(wordLetters))
-					" style="--row: 3; --column: 9">⏎</button>
+					" style="--row: 3; --column: 1">Enter</button>
 				</div>
 			</div>
 

@@ -178,7 +178,7 @@ main {
 		inset-inline-start: calc(var(--on, 1) * 1.25em);
 
 		inline-size: 100%;
-		aspect-ratio: 1;
+		aspect-ratio: 0.8;
 
 		grid-row: var(--row, auto);
 		grid-column: var(--column, auto);
@@ -198,6 +198,20 @@ main {
 
 	#keyboard [mv-list="keys"]>button[style*="--row: 1"] {
 		--on: 0;
+	}
+
+	#keyboard [mv-list="keys"]>button:where(#bs, #enter) {
+		inset-inline-start: 1em;
+		inline-size: 150%;
+		aspect-ratio: initial;
+
+		font-size: 150%;
+	}
+
+	#keyboard [mv-list="keys"]>button#enter {
+		inset-inline-start: initial;
+
+		font-size: 100%;
 	}
 
 	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"])>:where(button, [mv-list-item]).absent {
