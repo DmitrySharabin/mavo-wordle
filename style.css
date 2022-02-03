@@ -66,6 +66,12 @@ header {
 			background-color: hsl(44, 89%, 58%);
 		}
 
+header,
+#attribution {
+	position: relative;
+	z-index: 1;
+}
+
 main {
 	max-inline-size: 560px;
 	margin-inline: auto;
@@ -146,6 +152,15 @@ main {
 	display: none;
 }
 
+[mv-app="game"].backdrop::after {
+	content: "";
+
+	position: fixed;
+	inset: 0;
+
+	background-color: rgb(255 255 255 / 50%);
+}
+
 #keyboard [mv-list="keys"] {
 	margin-inline: auto;
 	inline-size: min-content;
@@ -223,7 +238,7 @@ main {
 	border-radius: 0.5em;
 
 	background-color: whitesmoke;
-	box-shadow: 0 0 0 10000px rgb(255 255 255 / 50%), 0 0 40px rgb(0 0 0 / 40%);
+	box-shadow: 0 0 40px rgb(0 0 0 / 40%);
 
 	font-size: 150%;
 }

@@ -23,7 +23,7 @@
 	</header>
 
 	<main>
-		<section mv-app="game" mv-bar="none">
+		<section mv-app="game" mv-bar="none" class="[if(popup.isShowing, backdrop)]">
 			<meta property="hiddenWord" content="[wordleList.randomWord]" mv-if="false" />
 
 			<meta property="isOver" content="[false]" />
@@ -35,7 +35,7 @@
 			<meta property="wordValid" content="[wordToCheck in wordleList.words]" />
 
 			<button id="give-up" class="[if(attempt > 1, visible)]"
-				mv-action="if(!popup.isShowing, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & set(popup.isShowing, true))"
+				mv-action="set(isOver, true) set(result, 'lost') set(popup.message, hiddenWord) set(popup.cta, 'Play again') set(popup.isShowing, true)"
 			>💔 Give up</button>
 
 			<div mv-list="usedLetters" mv-initial-items="0">
@@ -46,13 +46,13 @@
 			<div id="keyboard">
 				<div mv-list="keys" mv-value="keyboardLayout.keys">
 					<button mv-list-item mv-group
-						mv-action="if(!popup.isShowing and wordLength < 5, add(key, usedLetters) & add(key, wordLetters))"
+						mv-action="if(wordLength < 5, add(key, usedLetters) & add(key, wordLetters))"
 						mv-attribute="data-key"
 						class="[if(attempt > 1, if(contains(join(attempts), key), if(key in correctLetters, correct, if(contains(hiddenWord, key), elsewhere, absent))))]"
 						style="--row: [row]">[key]</button>
 
 					<button
-						mv-action="deleteif(!popup.isShowing and wordLength > 0, last(game.usedLetters)) deleteif(!popup.isShowing, last(game.wordLetters))"
+						mv-action="deleteif(wordLength > 0, last(game.usedLetters)) delete(last(game.wordLetters))"
 						style="--row: 3; --column: 1">⌫</button>
 
 					<button mv-action="
