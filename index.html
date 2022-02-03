@@ -24,7 +24,7 @@
 
 	<main>
 		<section mv-app="game" mv-bar="none" class="[if(popup.isShowing, backdrop)]">
-			<meta property="hiddenWord" content="[wordleList.randomWord]" mv-if="false" />
+			<meta property="hiddenWord" content="[commonWords.randomWord]" mv-if="false" />
 
 			<meta property="isOver" content="[false]" />
 			<meta property="result" />
@@ -32,7 +32,7 @@
 			<meta property="attempt" content="[count(attempts) + 1]" />
 			<meta property="wordToCheck" content="[join(wordLetters)]" />
 			<meta property="wordLength" content="[len(wordToCheck)]" />
-			<meta property="wordValid" content="[wordToCheck in wordleList.words]" />
+			<meta property="wordValid" content="[wordToCheck in allWords.words]" />
 
 			<button id="give-up" class="[if(attempt > 1, visible)]"
 				mv-action="set(isOver, true) set(result, 'lost') set(popup.message, hiddenWord) set(popup.cta, 'Play again') set(popup.isShowing, true)"
@@ -85,7 +85,7 @@
 
 			<p property="message"></p>
 			<button property="cta" mv-attribute="none" mv-action="
-				if(game.isOver, set(wordleList.randomWord, first(shuffle(wordleList.words))) & clear(game.usedLetters, game.correctLetters, game.wordLetters, game.attempts) & set(game.isOver, false))
+				if(game.isOver, set(commonWords.randomWord, first(shuffle(commonWords.words))) & clear(game.usedLetters, game.correctLetters, game.wordLetters, game.attempts) & set(game.isOver, false))
 				set(isShowing, false)
 			"></button>
 		</section>
@@ -95,7 +95,11 @@
 		</section>
 
 		<!-- Credit: https://github.com/tabatkins/wordle-list -->
-		<section mv-app="wordleList" mv-source="wordleList.json" mv-bar="none">
+		<section mv-app="allWords" mv-source="allWords.json" mv-bar="none">
+			<meta property="words" mv-if="false" />
+		</section>
+
+		<section mv-app="commonWords" mv-source="commonWords.json" mv-bar="none">
 			<meta property="randomWord" content="[first(shuffle(words))]" mv-if="false" />
 		</section>
 	</main>
