@@ -32,7 +32,7 @@
 			<meta property="attempt" content="[count(attempts) + 1]" />
 			<meta property="wordToCheck" content="[join(wordLetters)]" />
 			<meta property="wordLength" content="[len(wordToCheck)]" />
-			<meta property="wordValid" content="[wordToCheck in allWords.words]" />
+			<meta property="wordValid" content="[wordToCheck in allWords.words or wordToCheck in commonWords.words]" />
 
 			<button id="give-up" class="[if(attempt > 1, visible)]"
 				mv-action="set(isOver, true) set(result, 'lost') set(popup.message, hiddenWord) set(popup.cta, 'Play again') set(popup.isShowing, true)"
