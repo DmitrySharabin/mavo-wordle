@@ -40,7 +40,7 @@
 
 			<div mv-list="usedLetters" mv-initial-items="0">
 				<span mv-list-item style="--row: [floor($index / 5) + 1]"
-					class="[if(attempt > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = $item, correct, if(contains(hiddenWord, $item), elsewhere, absent)))]"></span>
+					class="[if(attempt > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = $item, correct, if(contains(hiddenWord, $item), if($item in (split(hiddenWord, '') where split(hiddenWord, '') = split(get(attempts, floor($index / 5)), '')) and len(replace(hiddenWord, $item)) = 4, absent, elsewhere), absent)))]"></span>
 			</div>
 
 			<div id="keyboard">
