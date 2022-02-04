@@ -202,13 +202,14 @@ main {
 
 	#keyboard [mv-list="keys"]>button:where(#bs, #enter) {
 		inset-inline-start: 1em;
-		inline-size: 150%;
+		inline-size: 160%;
 		aspect-ratio: initial;
 
 		font-size: 150%;
 	}
 
 	#keyboard [mv-list="keys"]>button#enter {
+		inline-size: 150%;
 		inset-inline-start: initial;
 
 		font-size: 100%;
