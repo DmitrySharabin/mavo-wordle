@@ -125,6 +125,7 @@ main {
 
 [mv-app="game"] [mv-list="usedLetters"]>[mv-list-item] {
 	inline-size: 100%;
+	aspect-ratio: 1;
 	margin: 0;
 
 	grid-row: var(--row, auto);
@@ -135,9 +136,6 @@ main {
 	background-color: var(--bg, transparent);
 
 	border-radius: 0.2em;
-	border-color: #9aa6b499;
-
-	aspect-ratio: 1;
 
 	color: var(--color, inherit);
 	font-size: 200%;
@@ -146,6 +144,19 @@ main {
 	transition-duration: 100ms;
 	transition-timing-function: ease-out;
 	transition-property: color, background-color;
+
+	animation: bounce 0.2s ease-in-out;
+}
+
+@keyframes bounce {
+	50% {
+		transform: scale(1.1);
+		border-width: 2px;
+	}
+}
+
+[mv-app="game"] [mv-list="usedLetters"]>[mv-list-item]:not(.absent, .elsewhere, .correct) {
+	border: 1px solid black;
 }
 
 [mv-app="game"] > .mv-ui.mv-message.mv-deleted {
