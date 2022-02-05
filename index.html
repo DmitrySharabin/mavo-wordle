@@ -57,7 +57,7 @@
 
 					<button id="enter" mv-action="
 						if(0 < wordLength < 5, set(popup.message, 'Too short') & set(popup.cta, 'Continue') & set(popup.isShowing, true))
-						if(wordLength = 5 and attempt <= 6 and !wordValid, set(popup.message, 'Not a valid word') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
+						if(wordLength = 5 and attempt <= 6 and !wordValid, set(popup.message, 'Not in a word list') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
 
 						if(wordLength = 5 and attempt = 6 and wordValid and wordToCheck != hiddenWord, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & set(popup.isShowing, true))
 						if(wordLength = 5 and wordToCheck = hiddenWord, set(isOver, true) & set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & set(popup.isShowing, true))
