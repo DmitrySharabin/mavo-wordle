@@ -136,6 +136,7 @@ main {
 	background-color: var(--bg, transparent);
 
 	border-radius: 0.2em;
+	border: 2px solid transparent;
 
 	color: var(--color, inherit);
 	font-size: 200%;
@@ -151,12 +152,11 @@ main {
 @keyframes bounce {
 	50% {
 		transform: scale(1.1);
-		border-width: 2px;
 	}
 }
 
 [mv-app="game"] [mv-list="usedLetters"]>[mv-list-item]:not(.absent, .elsewhere, .correct) {
-	border: 1px solid black;
+	border-color: hsl(0 0% 20%);
 }
 
 [mv-app="game"] > .mv-ui.mv-message.mv-deleted {
