@@ -88,6 +88,19 @@
 			<meta property="isShowing" content="[false]" />
 
 			<p property="message"></p>
+
+			<article mv-if="game.isOver and game.result = 'won'">
+				<h1>
+					Wordle [count(game.attempts)]/6
+				</h1>
+
+				<p mv-list mv-value="game.usedLetters">
+					<span mv-list-item="letter" mv-group>
+						[if(state = correct, "🟩", if(state = elsewhere, "🟨", "⬜️"))]
+					</span>
+				</p>
+			</article>
+
 			<button property="cta" mv-attribute="none" mv-action="
 				if(game.isOver, set(commonWords.randomWord, first(shuffle(commonWords.words))) & clear(game.usedLetters, game.correctLetters, game.wordLetters, game.attempts) & set(game.isOver, false))
 				set(isShowing, false)

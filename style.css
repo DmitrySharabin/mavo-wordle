@@ -316,6 +316,30 @@ main {
 		content: "";
 	}
 
+	[mv-app="popup"]>article {
+		inline-size: fit-content;
+		margin-inline: auto;
+
+		font-size: 80%;
+	}
+
+		[mv-app="popup"]>article>h1 {
+			margin: 0;
+
+			font-size: inherit;
+			font-weight: 300;
+		}
+
+		[mv-app="popup"]>article>[mv-list] {
+			margin-block-start: 0.5em;
+
+			display: grid;
+			grid-template-columns: repeat(5, min-content);
+			gap: 0.03em;
+
+			font-size: inherit;
+		}
+
 	[mv-app="popup"]>button {
 		margin-block-end: 0.7em;
 		padding: 0.7em 0.7em;
