@@ -254,7 +254,7 @@ main {
 	visibility: hidden;
 	opacity: 0;
 
-	min-inline-size: 15em;
+	min-inline-size: 20em;
 	padding: 0.7em 1em;
 	padding-block-start: 1.2em;
 
