@@ -280,6 +280,46 @@ main {
 	transition: opacity 0.15s;
 }
 
+	[mv-app="popup"]>.stats {
+		inline-size: fit-content;
+		margin: 0.4em auto 1em;
+
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.2em 1em;
+
+		font-size: 130%;
+		font-weight: 500;
+	}
+
+	[mv-app="popup"]>.stats::before {
+		content: "Statistics";
+
+		grid-column: span 2;
+		
+		font-size: 50%;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+	}
+
+	[mv-app="popup"]>.stats>* {
+		display: flex;
+		flex-direction: column;
+	}
+
+	[mv-app="popup"]>.stats>*::after {
+		font-size: 50%;
+		font-weight: 200;
+	}
+
+	[mv-app="popup"]>.stats>:first-child::after {
+		content: "Played";
+	}
+
+	[mv-app="popup"]>.stats>:last-child::after {
+		content: "Win, %"
+	}
+
 	[mv-app="popup"]>[property="message"] {
 		padding: 1em 1.7em;
 
@@ -308,6 +348,8 @@ main {
 	}
 
 	[mv-app="popup"].game-over.won>[property="message"] {
+		margin-block: 0.4em;
+
 		font-size: 150%;
 		font-weight: bold;
 	}
@@ -331,7 +373,8 @@ main {
 		}
 
 		[mv-app="popup"]>article>[mv-list] {
-			margin-block-start: 0.5em;
+			inline-size: fit-content;
+			margin: 0.5em auto 0.8em;
 
 			display: grid;
 			grid-template-columns: repeat(5, min-content);

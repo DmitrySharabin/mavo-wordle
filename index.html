@@ -35,7 +35,7 @@
 			<meta property="wordValid" content="[wordToCheck in allWords.words or wordToCheck in commonWords.words]" />
 
 			<button id="give-up" class="[if(attempt > 1, visible)]"
-				mv-action="set(isOver, true) set(result, 'lost') set(popup.message, hiddenWord) set(popup.cta, 'Play again') set(popup.isShowing, true)"
+				mv-action="set(isOver, true) set(result, 'lost') set(popup.message, hiddenWord) set(popup.cta, 'Play again') add(group('guess': 0), statistics.games) set(popup.isShowing, true)"
 			>💔 Give up</button>
 
 			<div mv-list="usedLetters" mv-initial-items="0">
@@ -63,8 +63,8 @@
 						if(0 < wordLength < 5, set(popup.message, 'Too short') & set(popup.cta, 'Continue') & set(popup.isShowing, true))
 						if(wordLength = 5 and attempt <= 6 and !wordValid, set(popup.message, 'Not in a word list') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
 
-						if(wordLength = 5 and attempt = 6 and wordValid and wordToCheck != hiddenWord, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & set(popup.isShowing, true))
-						if(wordLength = 5 and wordToCheck = hiddenWord, set(isOver, true) & set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & set(popup.isShowing, true))
+						if(wordLength = 5 and attempt = 6 and wordValid and wordToCheck != hiddenWord, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & add(group('guess': 0), statistics.games) & set(popup.isShowing, true))
+						if(wordLength = 5 and wordToCheck = hiddenWord, set(isOver, true) & set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & add(group('guess': attempt), statistics.games) & set(popup.isShowing, true))
 
 						if(wordLength = 5 and attempt <= 6 and wordValid, add(wordToCheck, attempts) & add(condense(filter(wordLetters, split(hiddenWord, '') = wordLetters)), correctLetters) & clear(wordLetters))
 					" style="--row: 3; --column: 1">Enter</button>
@@ -89,9 +89,14 @@
 
 			<p property="message"></p>
 
+			<article class="stats" mv-if="game.isOver and game.result = 'won'">
+				<span>[statistics.played]</span>
+				<span>[round(statistics.wins / statistics.played * 100)]</span>
+			</article>
+
 			<article mv-if="game.isOver and game.result = 'won'">
 				<h1>
-					Wordle [count(game.attempts)]/6
+					Wordle [statistics.played] [count(game.attempts)]/6
 				</h1>
 
 				<p mv-list mv-value="game.usedLetters">
@@ -105,6 +110,17 @@
 				if(game.isOver, set(commonWords.randomWord, first(shuffle(commonWords.words))) & clear(game.usedLetters, game.correctLetters, game.wordLetters, game.attempts) & set(game.isOver, false))
 				set(isShowing, false)
 			"></button>
+		</section>
+
+		<section mv-app="statistics" mv-bar="none" mv-storage="local" mv-autosave>
+			<meta property="played" content="[count(games)]" />
+			<meta property="wins" content="[count(games where guess > 0)]" />
+
+			<div mv-list="games" mv-initial-items="0">
+				<div mv-list-item>
+					<meta property="guess" />
+				</div>
+			</div>
 		</section>
 
 		<section mv-app="keyboardLayout" mv-source="keyboard.json" mv-bar="none">
