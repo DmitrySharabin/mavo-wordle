@@ -124,6 +124,10 @@ main {
 }
 
 [mv-app="game"] [mv-list="usedLetters"]>[mv-list-item] {
+	display: contents;
+}
+
+[mv-app="game"] [mv-list="usedLetters"] [property="letter"] {
 	inline-size: 100%;
 	aspect-ratio: 1;
 	margin: 0;
@@ -155,7 +159,7 @@ main {
 	}
 }
 
-[mv-app="game"] [mv-list="usedLetters"]>[mv-list-item]:not(.absent, .elsewhere, .correct) {
+[mv-app="game"] [mv-list="usedLetters"] [property="letter"]:not(.absent, .elsewhere, .correct) {
 	border-color: hsl(0 0% 20%);
 }
 
@@ -226,19 +230,19 @@ main {
 		font-size: 100%;
 	}
 
-	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"])>:where(button, [mv-list-item]).absent {
+	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"]) :where(button, [property="letter"]).absent {
 		--bg: hsl(219 20% 70%);
 	}
 
-	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"])>:where(button, [mv-list-item]).elsewhere {
+	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"]) :where(button, [property="letter"]).elsewhere {
 		--bg: hsl(44, 89%, 58%);
 	}
 
-	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"])>:where(button, [mv-list-item]).correct {
+	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"]) :where(button, [property="letter"]).correct {
 		--bg: hsl(97 42% 52%);
 	}
 
-	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"])>:where(button, [mv-list-item]):where(.absent, .elsewhere, .correct) {
+	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"]) :where(button, [property="letter"]):where(.absent, .elsewhere, .correct) {
 		--color: whitesmoke;
 	}
 
