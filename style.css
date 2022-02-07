@@ -481,7 +481,7 @@ main {
 	font-variant-numeric: tabular-nums;
 
 	background-image: linear-gradient(to right, var(--color, hsl(221 13% 41%)), var(--color, hsl(221 13% 41%)));
-	background-size: max(1.25em, calc(var(--value) / var(--max) * 100%)) 100%;
+	background-size: max(1.25em, calc(var(--value) / var(--max, 1) * 100%)) 100%;
 	background-repeat: no-repeat;
 }
 
@@ -495,7 +495,7 @@ main {
 
 [mv-app="statistics"] [mv-list="guessCount"]>[mv-list-item]>span {
 	position: relative;
-	inset-inline-start: max(-0.9em, calc(var(--value) / var(--max) * 100% - 2em));
+	inset-inline-start: max(-0.9em, calc(var(--value) / var(--max, 1) * 100% - 2em));
 
 	color: whitesmoke;
 
