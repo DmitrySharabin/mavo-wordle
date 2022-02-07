@@ -343,14 +343,21 @@ main {
 	}
 
 	[mv-app="popup"]>article {
+		--indent: 30px;
+
 		inline-size: fit-content;
 		margin-inline: auto;
+
+		display: grid;
+		grid-template-columns: 1fr auto;
+		align-items: center;
 
 		font-size: 80%;
 	}
 
 		[mv-app="popup"]>article>h1 {
 			margin: 0;
+			margin-inline-end: var(--indent);
 
 			font-size: inherit;
 			font-weight: 300;
@@ -359,16 +366,67 @@ main {
 		[mv-app="popup"]>article>[mv-list] {
 			inline-size: fit-content;
 			margin: 0.5em auto 0.8em;
+			padding-inline-end: var(--indent);
+
+			grid-row: 2;
 
 			display: grid;
 			grid-template-columns: repeat(5, min-content);
 			gap: 0.03em;
 
+			border-inline-end: 2px solid hsl(221 13% 41%);
+
 			font-size: 100%;
 		}
 
+		[mv-app="popup"]>article>button {
+			grid-row: span 2;
+
+			position: relative;
+
+			display: flex;
+
+			margin-inline-start: var(--indent);
+			padding: 0.4em 0.6em;
+
+			border: none;
+			border-radius: 0.3em;
+
+			color: hsl(219 20% 70%);
+			background: hsl(222 32% 90%);
+
+			text-transform: uppercase;
+			line-height: 1;
+			font-family: inherit;
+			font-size: 120%;
+			font-weight: 500;
+
+			cursor: not-allowed;
+		}
+
+		[mv-app="popup"]>article>button::before {
+			content: "⚠️ Feature to come!";
+
+			position: absolute;
+			inset-inline-start: 0;
+			inset-block-end: -1.3em;
+
+			color: brown;
+
+			text-transform: initial;
+			font-size: 50%;
+			font-weight: 700;
+		}
+
+		[mv-app="popup"]>article>button::after {
+			content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="%23a3aec2" d="M384 336a63.78 63.78 0 0 0-46.12 19.7l-148-83.27a63.85 63.85 0 0 0 0-32.86l148-83.27a63.8 63.8 0 1 0-15.73-27.87l-148 83.27a64 64 0 1 0 0 88.6l148 83.27A64 64 0 1 0 384 336z"/></svg>');
+
+			inline-size: 1em;
+			margin-inline-start: 0.2em;
+		}
+
 	[mv-app="popup"]>button {
-		margin-block-end: 0.7em;
+		margin-block: 0.7em;
 		padding: 0.7em 0.7em;
 
 		border: none;
@@ -569,6 +627,10 @@ main {
 
 	[mv-app="popup"]>article>[mv-list] {
 		font-size: 130%;
+	}
+
+	[mv-app="popup"]>article>button::before {
+		font-size: 8px;
 	}
 
 	[mv-app="statistics"]>button {
