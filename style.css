@@ -478,6 +478,7 @@ main {
 
 	text-align: left;
 	font-size: 50%;
+	font-variant-numeric: tabular-nums;
 
 	background-image: linear-gradient(to right, var(--color, hsl(221 13% 41%)), var(--color, hsl(221 13% 41%)));
 	background-size: max(1.25em, calc(var(--value) / var(--max) * 100%)) 100%;
