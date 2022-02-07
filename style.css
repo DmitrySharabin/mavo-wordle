@@ -380,7 +380,7 @@ main {
 			grid-template-columns: repeat(5, min-content);
 			gap: 0.03em;
 
-			font-size: inherit;
+			font-size: 100%;
 		}
 
 	[mv-app="popup"]>button {
@@ -471,6 +471,10 @@ main {
 
 	[mv-app="popup"] {
 		font-size: 100%;
+	}
+
+	[mv-app="popup"]>article>[mv-list] {
+		font-size: 130%;
 	}
 
 	#attribution {
