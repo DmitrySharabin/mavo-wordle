@@ -57,7 +57,7 @@
 
 					<button id="bs"
 						mv-action="deleteif(wordLength > 0, last(game.usedLetters)) delete(last(game.wordLetters))"
-						style="--row: 3; --column: 9">⌫</button>
+						style="--row: 3; --column: 9" aria-label="Delete last letter">⌫</button>
 
 					<button id="enter" mv-action="
 						if(0 < wordLength < 5, set(popup.message, 'Too short') & set(popup.cta, 'Continue') & set(popup.isShowing, true))
