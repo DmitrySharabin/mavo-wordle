@@ -472,6 +472,7 @@ main {
 
 [mv-app="statistics"] [mv-list="guessCount"]>[mv-list-item] {
 	--color: hsl(120 68% 33%);
+	--inset: 0.5em;
 
 	margin-block: 0.25em;
 	padding: 0.25em;
@@ -486,16 +487,15 @@ main {
 }
 
 [mv-app="statistics"] [mv-list="guessCount"]>[mv-list-item]::before {
+	margin-inline-start: -1.5em;
+
 	counter-increment: distribution;
 	content: counter(distribution);
-
-	position: relative;
-	inset-inline-start: -1.5em;
 }
 
 [mv-app="statistics"] [mv-list="guessCount"]>[mv-list-item]>span {
-	position: relative;
-	inset-inline-start: max(-0.9em, calc(var(--value) / var(--max, 1) * 100% - 2em));
+	position: absolute;
+	inset-inline-end: calc(100% - var(--value) / var(--max, 1) * 100% + var(--inset, -0.95em));
 
 	color: whitesmoke;
 
