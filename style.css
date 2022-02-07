@@ -343,21 +343,19 @@ main {
 	}
 
 	[mv-app="popup"]>article {
-		--indent: 30px;
-
 		inline-size: fit-content;
 		margin-inline: auto;
 
 		display: grid;
-		grid-template-columns: 1fr auto;
+		grid-template-columns: 1fr 1fr;
 		align-items: center;
+		column-gap: 3em;
 
 		font-size: 80%;
 	}
 
 		[mv-app="popup"]>article>h1 {
 			margin: 0;
-			margin-inline-end: var(--indent);
 
 			font-size: inherit;
 			font-weight: 300;
@@ -366,15 +364,12 @@ main {
 		[mv-app="popup"]>article>[mv-list] {
 			inline-size: fit-content;
 			margin: 0.5em auto 0.8em;
-			padding-inline-end: var(--indent);
 
 			grid-row: 2;
 
 			display: grid;
 			grid-template-columns: repeat(5, min-content);
 			gap: 0.03em;
-
-			border-inline-end: 2px solid hsl(221 13% 41%);
 
 			font-size: 100%;
 		}
@@ -386,7 +381,6 @@ main {
 
 			display: flex;
 
-			margin-inline-start: var(--indent);
 			padding: 0.4em 0.6em;
 
 			border: none;
