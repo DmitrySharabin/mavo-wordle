@@ -143,7 +143,7 @@ main {
 	grid-template-rows: repeat(6, var(--size));
 	gap: 0.3em;
 
-	background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="4.3em" height="4.3em"><defs><clipPath id="clip"><rect x="0.015em" y="0.015em" width="3.985em" height="3.985em" rx="0.4em" /></clipPath></defs><rect x="0.015em" y="0.015em" width="3.985em" height="3.985em" rx="0.4em" fill="transparent" stroke="%239aa6b499" stroke-width="0.2em" clip-path="url(%23clip)" /></svg>');
+	background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="4.3em" height="4.3em"><defs><clipPath id="clip"><rect width="4em" height="4em" rx="0.4em" /></clipPath></defs><rect width="4em" height="4em" rx="0.4em" fill="transparent" stroke="%239aa6b499" stroke-width="0.2em" clip-path="url(%23clip)" /></svg>');
 }
 
 [mv-app="game"] [mv-list="usedLetters"]>[mv-list-item] {
