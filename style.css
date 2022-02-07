@@ -77,35 +77,58 @@ main {
 	margin-inline: auto;
 }
 
+#toolbar {
+	margin: 1.2em 2em;
+
+	display: flex;
+	justify-content: space-between;
+}
+
+	#toolbar>:where(button, [role="button"]) {
+		block-size: 2.5em;
+		padding: 0.1em 0.5em;
+
+		border-radius: 0.5em;
+		border: 2px dotted var(--border-color, transparent);
+
+		color: var(--color);
+		background: var(--bg);
+
+		font-size: 90%;
+		font-weight: 700;
+
+		transition: border-color 0.2s;
+
+		cursor: pointer;
+	}
+
+#show-stats {
+	--bg: hsl(222 32% 90%);
+
+	padding: 0.2em;
+}
+
+#show-stats:where(:hover, :active, :focus) {
+	--border-color: hsl(219 20% 70%);
+}
+
 #give-up {
 	visibility: hidden;
 
-	block-size: 2.5em;
-	padding: 0.1em 0.5em;
-	margin-inline-start: 2em;
-	margin-block-end: 1.3em;
-
-	border-radius: 0.5em;
-	border: 2px solid transparent;
-
-	color: hsl(339 24% 58%);
-	background: #f2e4e7;
-
-	font-size: 90%;
-	font-weight: 700;
-
-	transition: border-color 0.2s;
-
-	cursor: pointer;
+	--color: hsl(339 24% 58%);
+	--bg: hsl(347 35% 92%);
 }
 
 #give-up:where(:hover, :active, :focus) {
-	border-style: dotted;
-	border-color: hsl(339 24% 70%);
+	--border-color: hsl(339 24% 70%);
 }
 
 #give-up.visible {
 	visibility: revert;
+}
+
+#give-up::before {
+	content: "💔 ";
 }
 
 [mv-app="game"] [mv-list="usedLetters"] {
@@ -250,7 +273,8 @@ main {
 		--bg: hsl(223 27% 82%);
 	}
 
-[mv-app="popup"] {
+[mv-app="popup"],
+[mv-app="statistics"] {
 	visibility: hidden;
 	opacity: 0;
 
@@ -265,60 +289,20 @@ main {
 	inset-block-start: 30%;
 	transform: translate(-50%, -30%);
 
-	border-radius: 0.5em;
+	border-radius: 0.35em;
 
 	background-color: whitesmoke;
-	box-shadow: 0 0 40px rgb(0 0 0 / 40%);
+	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
 	font-size: 150%;
 }
 
-[mv-app="popup"].visible {
+:where([mv-app="popup"], [mv-app="statistics"]).visible {
 	visibility: revert;
 	opacity: revert;
 
 	transition: opacity 0.15s;
 }
-
-	[mv-app="popup"]>.stats {
-		inline-size: fit-content;
-		margin: 0.4em auto 1em;
-
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 0.2em 1em;
-
-		font-size: 130%;
-		font-weight: 500;
-	}
-
-	[mv-app="popup"]>.stats::before {
-		content: "Statistics";
-
-		grid-column: span 2;
-		
-		font-size: 50%;
-		text-transform: uppercase;
-		letter-spacing: 0.02em;
-	}
-
-	[mv-app="popup"]>.stats>* {
-		display: flex;
-		flex-direction: column;
-	}
-
-	[mv-app="popup"]>.stats>*::after {
-		font-size: 50%;
-		font-weight: 200;
-	}
-
-	[mv-app="popup"]>.stats>:first-child::after {
-		content: "Played";
-	}
-
-	[mv-app="popup"]>.stats>:last-child::after {
-		content: "Win, %"
-	}
 
 	[mv-app="popup"]>[property="message"] {
 		padding: 1em 1.7em;
@@ -409,6 +393,114 @@ main {
 		background-color: hsl(120 34% 58%);
 	}
 
+[mv-app="statistics"]>article>h1 {
+	margin: 0;
+
+	font-size: 70%;
+	font-weight: 600;
+
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+[mv-app="statistics"]>button {
+	position: absolute;
+	inset-inline-end: 0.3em;
+	inset-block-start: 0.3em;
+
+	border: none;
+	background-color: transparent;
+
+	opacity: 0.5;
+	transition: opacity 0.2s;
+
+	font-size: 105%;
+
+	cursor: pointer;
+}
+
+[mv-app="statistics"]>button:where(:hover, :active, :focus) {
+	opacity: 1;
+}
+
+[mv-app="statistics"]>.stats {
+	inline-size: fit-content;
+	margin: 0.4em auto 1.2em;
+
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 0.2em 1em;
+	justify-items: center;
+
+	font-weight: 500;
+}
+
+[mv-app="statistics"]>.stats>h1 {
+	grid-column: span 2;
+}
+
+[mv-app="statistics"]>.stats>span {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	font-size: 130%;
+}
+
+[mv-app="statistics"]>.stats>span::after {
+	font-size: 50%;
+	font-weight: 200;
+}
+
+[mv-app="statistics"]>.stats>span:first-of-type::after {
+	content: "Played";
+}
+
+[mv-app="statistics"]>.stats>span:last-of-type::after {
+	content: "Win %"
+}
+
+[mv-app="statistics"] [mv-list="guessCount"] {
+	margin: 1em auto;
+	padding: 0;
+	inline-size: 90%;
+
+	list-style: none;
+
+	counter-reset: distribution;
+}
+
+[mv-app="statistics"] [mv-list="guessCount"]>[mv-list-item] {
+	--color: hsl(120 68% 33%);
+
+	margin-block: 0.25em;
+	padding: 0.25em;
+
+	text-align: left;
+	font-size: 50%;
+
+	background-image: linear-gradient(to right, var(--color, hsl(221 13% 41%)), var(--color, hsl(221 13% 41%)));
+	background-size: max(1.25em, calc(var(--value) / var(--max) * 100%)) 100%;
+	background-repeat: no-repeat;
+}
+
+[mv-app="statistics"] [mv-list="guessCount"]>[mv-list-item]::before {
+	counter-increment: distribution;
+	content: counter(distribution);
+
+	position: relative;
+	inset-inline-start: -1.5em;
+}
+
+[mv-app="statistics"] [mv-list="guessCount"]>[mv-list-item]>span {
+	position: relative;
+	inset-inline-start: max(-0.9em, calc(var(--value) / var(--max) * 100% - 2em));
+
+	color: whitesmoke;
+
+	font-weight: 700;
+}
+
 #attribution {
 	margin-block-start: 5em;
 
@@ -469,12 +561,21 @@ main {
 		font-size: 85%;
 	}
 
-	[mv-app="popup"] {
-		font-size: 100%;
+	[mv-app="popup"],
+	[mv-app="statistics"] {
+		font-size: 120%;
 	}
 
 	[mv-app="popup"]>article>[mv-list] {
 		font-size: 130%;
+	}
+
+	[mv-app="statistics"]>button {
+		font-size: 150%;
+	}
+
+	[mv-app="statistics"] [mv-list="guessCount"]>[mv-list-item] {
+		font-size: 70%;
 	}
 
 	#attribution {
