@@ -607,7 +607,7 @@ main {
 	}
 
 	[mv-app="game"] [mv-list="usedLetters"] {
-		background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="3.427em" height="3.427em"><defs><clipPath id="clip"><rect x="0.019em" y="0.018em" width="3.21em" height="3.21em" rx="0.32em" /></clipPath></defs><rect x="0.019em" y="0.018em" width="3.21em" height="3.21em" rx="0.32em" fill="transparent" stroke="%239aa6b499" stroke-width="0.15em" clip-path="url(%23clip)" /></svg>');
+		background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="3.425em" height="3.425em"><defs><clipPath id="clip"><rect width="3.23em" height="3.23em" rx="0.3em" /></clipPath></defs><rect width="3.23em" height="3.23em" rx="0.3em" fill="transparent" stroke="%239aa6b499" stroke-width="0.15em" clip-path="url(%23clip)" /></svg>');
 	}
 
 	#keyboard {
