@@ -30,9 +30,9 @@
 			<meta property="result" />
 
 			<meta property="attempt" content="[count(attempts) + 1]" />
-			<meta property="wordToCheck" content="[join(wordLetters)]" />
-			<meta property="wordLength" content="[len(wordToCheck)]" />
-			<meta property="wordValid" content="[wordToCheck in allWords.words or wordToCheck in commonWords.words]" />
+			<meta property="guess" content="[join(guessLetters)]" />
+			<meta property="guessLength" content="[len(guess)]" />
+			<meta property="guessValid" content="[guess in possibleWords.words or guess in commonWords.words]" />
 
 			<div id="toolbar">
 				<button id="give-up" class="[if(attempt > 1, visible)]"
@@ -54,28 +54,28 @@
 			<div id="keyboard">
 				<div mv-list="keys" mv-value="keyboardLayout.keys">
 					<button mv-list-item mv-group
-						mv-action="if(wordLength < 5, add(group('letter': key), usedLetters) & add(key, wordLetters))"
+						mv-action="if(guessLength < 5, add(group('letter': key), usedLetters) & add(key, guessLetters))"
 						mv-attribute="data-key"
 						class="[if(attempt > 1, if(contains(join(attempts), key), if(key in correctLetters, correct, if(contains(hiddenWord, key), elsewhere, absent))))]"
 						style="--row: [row]">[key]</button>
 
 					<button id="bs"
-						mv-action="deleteif(wordLength > 0, last(game.usedLetters)) delete(last(game.wordLetters))"
+						mv-action="deleteif(guessLength > 0, last(game.usedLetters)) delete(last(game.guessLetters))"
 						style="--row: 3; --column: 9" aria-label="Delete last letter">⌫</button>
 
 					<button id="enter" mv-action="
-						if(0 < wordLength < 5, set(popup.message, 'Too short') & set(popup.cta, 'Continue') & set(popup.isShowing, true))
-						if(wordLength = 5 and attempt <= 6 and !wordValid, set(popup.message, 'Not in a word list') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
+						if(0 < guessLength < 5, set(popup.message, 'Too short') & set(popup.cta, 'Continue') & set(popup.isShowing, true))
+						if(guessLength = 5 and attempt <= 6 and !guessValid, set(popup.message, 'Not in a word list') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
 
-						if(wordLength = 5 and attempt = 6 and wordValid and wordToCheck != hiddenWord, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & add(group('guess': 0), statistics.games) & set(popup.isShowing, true))
-						if(wordLength = 5 and wordToCheck = hiddenWord, set(isOver, true) & set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & add(group('guess': attempt), statistics.games) & set(popup.isShowing, true))
+						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & add(group('guess': 0), statistics.games) & set(popup.isShowing, true))
+						if(guessLength = 5 and guess = hiddenWord, set(isOver, true) & set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & add(group('guess': attempt), statistics.games) & set(popup.isShowing, true))
 
-						if(wordLength = 5 and attempt <= 6 and wordValid, add(wordToCheck, attempts) & add(condense(filter(wordLetters, split(hiddenWord, '') = wordLetters)), correctLetters) & clear(wordLetters))
+						if(guessLength = 5 and attempt <= 6 and guessValid, add(guess, attempts) & add(condense(filter(guessLetters, split(hiddenWord, '') = guessLetters)), correctLetters) & clear(guessLetters))
 					" style="--row: 3; --column: 1">Enter</button>
 				</div>
 			</div>
 
-			<div mv-list="wordLetters" mv-initial-items="0" mv-if="false">
+			<div mv-list="guessLetters" mv-initial-items="0" mv-if="false">
 				<span mv-list-item></span>
 			</div>
 
@@ -108,7 +108,7 @@
 			</article>
 
 			<button property="cta" mv-attribute="none" mv-action="
-				if(game.isOver, set(commonWords.randomWord, first(shuffle(commonWords.words))) & clear(game.usedLetters, game.correctLetters, game.wordLetters, game.attempts) & set(game.isOver, false))
+				if(game.isOver, set(commonWords.randomWord, first(shuffle(commonWords.words))) & clear(game.usedLetters, game.correctLetters, game.guessLetters, game.attempts) & set(game.isOver, false))
 				set(isShowing, false)
 			"></button>
 		</section>
@@ -153,7 +153,7 @@
 		</section>
 
 		<!-- Credit: https://github.com/tabatkins/wordle-list -->
-		<section mv-app="allWords" mv-source="allWords.json" mv-bar="none">
+		<section mv-app="possibleWords" mv-source="possibleWords.json" mv-bar="none">
 			<meta property="words" mv-if="false" />
 		</section>
 
