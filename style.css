@@ -401,6 +401,8 @@ main {
 		[mv-app="popup"]>article>button::before {
 			content: "⚠️ Feature to come!";
 
+			white-space: nowrap;
+
 			position: absolute;
 			inset-inline-start: 0;
 			inset-block-end: -1.3em;
