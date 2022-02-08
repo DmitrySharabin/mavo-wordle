@@ -29,7 +29,7 @@
 			<meta property="isOver" content="[false]" />
 			<meta property="result" />
 
-			<meta property="attempt" content="[count(attempts) + 1]" />
+			<meta property="attempt" content="[count(guesses) + 1]" />
 			<meta property="guess" content="[join(guessLetters)]" />
 			<meta property="guessLength" content="[len(guess)]" />
 			<meta property="guessValid" content="[guess in possibleWords.words or guess in commonWords.words]" />
@@ -45,7 +45,7 @@
 			<div mv-list="usedLetters" mv-initial-items="0">
 				<div mv-list-item>
 					<meta property="state"
-						content="[if(attempt > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = letter, correct, if(contains(hiddenWord, letter), if(letter in (split(hiddenWord, '') where split(hiddenWord, '') = split(get(attempts, floor($index / 5)), '')) and len(replace(hiddenWord, letter or '')) = 4, absent, elsewhere), absent)))]" />
+						content="[if(attempt > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = letter, correct, if(contains(hiddenWord, letter), if(letter in (split(hiddenWord, '') where split(hiddenWord, '') = split(get(guesses, floor($index / 5)), '')) and len(replace(hiddenWord, letter or '')) = 4, absent, elsewhere), absent)))]" />
 
 					<span property="letter" style="--row: [floor($index / 5) + 1]" class="[state]"></span>
 				</div>
@@ -56,7 +56,7 @@
 					<button mv-list-item mv-group
 						mv-action="if(guessLength < 5, add(group('letter': key), usedLetters) & add(key, guessLetters))"
 						mv-attribute="data-key"
-						class="[if(attempt > 1, if(contains(join(attempts), key), if(key in correctLetters, correct, if(contains(hiddenWord, key), elsewhere, absent))))]"
+						class="[if(attempt > 1, if(contains(join(guesses), key), if(key in correctLetters, correct, if(contains(hiddenWord, key), elsewhere, absent))))]"
 						style="--row: [row]">[key]</button>
 
 					<button id="bs"
@@ -70,7 +70,7 @@
 						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & add(group('guess': 0), statistics.games) & set(popup.isShowing, true))
 						if(guessLength = 5 and guess = hiddenWord, set(isOver, true) & set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & add(group('guess': attempt), statistics.games) & set(popup.isShowing, true))
 
-						if(guessLength = 5 and attempt <= 6 and guessValid, add(guess, attempts) & add(condense(filter(guessLetters, split(hiddenWord, '') = guessLetters)), correctLetters) & clear(guessLetters))
+						if(guessLength = 5 and attempt <= 6 and guessValid, add(guess, guesses) & add(condense(filter(guessLetters, split(hiddenWord, '') = guessLetters)), correctLetters) & clear(guessLetters))
 					" style="--row: 3; --column: 1">Enter</button>
 				</div>
 			</div>
@@ -83,7 +83,7 @@
 				<span></span>
 			</div>
 
-			<div mv-list="attempts" mv-initial-items="0" mv-if="false">
+			<div mv-list="guesses" mv-initial-items="0" mv-if="false">
 				<span mv-list-item></span>
 			</div>
 		</section>
@@ -95,7 +95,7 @@
 
 			<article mv-if="game.isOver and game.result = 'won'">
 				<h1>
-					Wordle [statistics.played] [count(game.attempts)]/6
+					Wordle [statistics.played] [count(game.guesses)]/6
 				</h1>
 
 				<p mv-list mv-value="game.usedLetters">
@@ -108,7 +108,7 @@
 			</article>
 
 			<button property="cta" mv-attribute="none" mv-action="
-				if(game.isOver, set(commonWords.randomWord, first(shuffle(commonWords.words))) & clear(game.usedLetters, game.correctLetters, game.guessLetters, game.attempts) & set(game.isOver, false))
+				if(game.isOver, set(commonWords.randomWord, first(shuffle(commonWords.words))) & clear(game.usedLetters, game.correctLetters, game.guessLetters, game.guesses) & set(game.isOver, false))
 				set(isShowing, false)
 			"></button>
 		</section>
