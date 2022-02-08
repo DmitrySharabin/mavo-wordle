@@ -45,7 +45,7 @@
 			<div mv-list="usedLetters" mv-initial-items="0">
 				<div mv-list-item>
 					<meta property="state"
-						content="[if(attempt > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = letter, correct, if(contains(hiddenWord, letter), if(letter in (split(hiddenWord, '') where split(hiddenWord, '') = split(get(attempts, floor($index / 5)), '')) and len(replace(hiddenWord, letter)) = 4, absent, elsewhere), absent)))]" />
+						content="[if(attempt > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = letter, correct, if(contains(hiddenWord, letter), if(letter in (split(hiddenWord, '') where split(hiddenWord, '') = split(get(attempts, floor($index / 5)), '')) and len(replace(hiddenWord, letter or '')) = 4, absent, elsewhere), absent)))]" />
 
 					<span property="letter" style="--row: [floor($index / 5) + 1]" class="[state]"></span>
 				</div>
