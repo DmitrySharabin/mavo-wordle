@@ -348,7 +348,7 @@ main {
 
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		align-items: center;
+		place-items: center;
 		column-gap: 3em;
 
 		font-size: 80%;
