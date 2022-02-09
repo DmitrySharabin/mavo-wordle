@@ -28,10 +28,10 @@ if(attempt > 1, if(contains(join(guesses), key), if(key in correctLetters, corre
 
 ### How to get a collection of correctly guessed letters?
 
-1. We add letters to the `correctLetters` collection only when the user submitted *a valid guess*: i.e., the guess is *5 characters long* and is *in the list of supported words* — and there were *not more than 6 guesses*:
+1. We add letters to the `correctLetters` collection only when the user submitted *a valid guess*: i.e., the guess is *5 characters long* and is *in the list of supported words*:
 
 ```js
-guessLength = 5 and attempt <= 6 and guessValid
+guessLength = 5 and guessValid
 ```
 
 2. We need to filter out letters of the `guessLetters` collection that are *in the correct places inside the hidden word* by splitting the hidden word into letters and matching them with the corresponding letters in a guess:

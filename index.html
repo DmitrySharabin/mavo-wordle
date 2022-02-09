@@ -65,12 +65,12 @@
 
 					<button id="enter" mv-action="
 						if(0 < guessLength < 5, set(popup.message, 'Too short') & set(popup.cta, 'Continue') & set(popup.isShowing, true))
-						if(guessLength = 5 and attempt <= 6 and !guessValid, set(popup.message, 'Not in a word list') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
+						if(guessLength = 5 and !guessValid, set(popup.message, 'Not in a word list') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
 
 						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & add(group('guess': 0), statistics.games) & set(popup.isShowing, true))
 						if(guessLength = 5 and guess = hiddenWord, set(isOver, true) & set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & add(group('guess': attempt), statistics.games) & set(popup.isShowing, true))
 
-						if(guessLength = 5 and attempt <= 6 and guessValid, add(guess, guesses) & add(condense(filter(guessLetters, split(hiddenWord, '') = guessLetters)), correctLetters) & clear(guessLetters))
+						if(guessLength = 5 and guessValid, add(guess, guesses) & add(condense(filter(guessLetters, split(hiddenWord, '') = guessLetters)), correctLetters) & clear(guessLetters))
 					" style="--row: 3; --column: 1">Enter</button>
 				</div>
 			</div>
