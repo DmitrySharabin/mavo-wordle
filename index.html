@@ -25,6 +25,7 @@
 	<main>
 		<section mv-app="game" mv-bar="none" class="[if(popup.isShowing or statistics.isShowing, backdrop)]">
 			<meta property="hiddenWord" content="[commonWords.randomWord]" mv-if="false" />
+			<meta property="hiddenWordLetters" content="[split(hiddenWord, '')]" mv-if="false" />
 
 			<meta property="isOver" content="[false]" />
 			<meta property="result" />
@@ -44,10 +45,12 @@
 
 			<div mv-list="usedLetters" mv-initial-items="0">
 				<div mv-list-item>
+					<meta property="row" content="[floor($index / 5)]" />
+					<meta property="thisRowLetters" content="[split(get(guesses, row), '')]" />
 					<meta property="state"
-						content="[if(attempt > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = letter, correct, if(contains(hiddenWord, letter), if(letter in (split(hiddenWord, '') where split(hiddenWord, '') = split(get(guesses, floor($index / 5)), '')) and len(replace(hiddenWord, letter or '')) = 4, absent, elsewhere), absent)))]" />
+						content="[if(row < attempt - 1, if(get(hiddenWordLetters, $index mod 5) = letter, correct, if(letter in hiddenWordLetters, if(letter in filter(hiddenWordLetters, hiddenWordLetters = thisRowLetters) and count(filter(hiddenWordLetters, hiddenWordLetters != letter)) = 4, absent, elsewhere), absent)))]" />
 
-					<span property="letter" style="--row: [floor($index / 5) + 1]" class="[state]"></span>
+					<span property="letter" style="--row: [row + 1]" class="[state]"></span>
 				</div>
 			</div>
 
@@ -70,7 +73,7 @@
 						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & add(group('guess': 0), statistics.games) & set(popup.isShowing, true))
 						if(guessLength = 5 and guess = hiddenWord, set(isOver, true) & set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & add(group('guess': attempt), statistics.games) & set(popup.isShowing, true))
 
-						if(guessLength = 5 and guessValid, add(guess, guesses) & add(condense(filter(guessLetters, split(hiddenWord, '') = guessLetters)), correctLetters) & clear(guessLetters))
+						if(guessLength = 5 and guessValid, add(guess, guesses) & add(condense(filter(guessLetters, hiddenWordLetters = guessLetters)), correctLetters) & clear(guessLetters))
 					" style="--row: 3; --column: 1">Enter</button>
 				</div>
 			</div>

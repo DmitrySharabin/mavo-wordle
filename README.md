@@ -12,21 +12,21 @@ The incomplete quotient of a letter `index` (inside the collection of used lette
 
 #### Coloring
 
-1. We begin coloring letters after the first guess is committed, i.e., the corresponding letters belong *to the previous guesses*: `attempt > floor($index / 5) + 1`.
+1. We begin coloring letters after the first guess is committed (from the second attempt), i.e., the corresponding letters belong *to the previous guesses*: `row < attempt - 1`, where `row = floor($index / 5)`.
 
-2. If a letter matches the corresponding letter of the hidden word, it's marked as `correct` (and colored green): `get(hiddenWord, $index mod 5) = letter`.
+2. If a letter matches the corresponding letter of the hidden word, it's marked as `correct` (and colored green): `get(hiddenWordLetters, $index mod 5) = letter`.
 
-3. A letter that is among letters of the hidden word is marked as `elsewhere` (and colored yellow) unless *it's only one in the hidden word* (i) and is *already in the right spot* in the corresponding guess (`get(guesses, floor($index / 5))`) (ii):
+3. A letter that is among letters of the hidden word is marked as `elsewhere` (and colored yellow) unless *it's only one in the hidden word* (i) and is *already in the right spot* in the corresponding guess (ii):
 
-   1. `len(replace(hiddenWord, letter or '')) = 4`
-   2. `letter in (split(hiddenWord, '') where split(hiddenWord, '') = split(get(guesses, floor($index / 5)), ''))`
+   1. `count(filter(hiddenWordLetters, hiddenWordLetters != letter)) = 4`
+   2. `letter in filter(hiddenWordLetters, hiddenWordLetters = thisRowLetters)`
 
 4. In all other cases, a letter is marked as `absent` (and colored dark gray).
 
 5. 1 + 2 + 3 + 4:
 
 ```js
-if(attempt > floor($index / 5) + 1, if(get(hiddenWord, $index mod 5) = letter, correct, if(contains(hiddenWord, letter), if(letter in (split(hiddenWord, '') where split(hiddenWord, '') = split(get(guesses, floor($index / 5)), '')) and len(replace(hiddenWord, letter or '')) = 4, absent, elsewhere), absent)))
+if(row < attempt - 1, if(get(hiddenWordLetters, $index mod 5) = letter, correct, if(letter in hiddenWordLetters, if(letter in filter(hiddenWordLetters, hiddenWordLetters = thisRowLetters) and count(filter(hiddenWordLetters, hiddenWordLetters != letter)) = 4, absent, elsewhere), absent)))
 ```
 
 ### Keyboard
@@ -80,7 +80,7 @@ guessLength = 5 and guessValid
 2. We need to filter out letters of the `guessLetters` collection that are *in the correct places inside the hidden word* by splitting the hidden word into letters and matching them with the corresponding letters in a guess:
 
 ```js
-condense(filter(guessLetters, split(hiddenWord, '') = guessLetters))
+condense(filter(guessLetters, hiddenWordLetters = guessLetters))
 ```
 
 
