@@ -14,7 +14,7 @@ Clone of the famous [Wordle game](https://www.powerlanguage.co.uk/wordle/) built
 contains(join(guesses), key)
 ```
 
-1. If the `key` is among previously *correctly guessed letters*, it's marked as `correct` (and colored green). Else if the *hidden word* contains the `key`, the `key` is marked as `elsewhere` (and colored yellow). Otherwise, it's marked as `absent` (and colored dark gray):
+3. If the `key` is among previously *correctly guessed letters*, it's marked as `correct` (and colored green). Else if the *hidden word* contains the `key`, the `key` is marked as `elsewhere` (and colored yellow). Otherwise, it's marked as `absent` (and colored dark gray):
 
 ```js
 if(key in correctLetters, correct, if(contains(hiddenWord, key), elsewhere, absent))
