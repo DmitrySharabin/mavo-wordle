@@ -9,7 +9,9 @@ html {
 	--gray-color: hsl(219 20% 70%);
 
 	box-sizing: border-box;
+
 	font-family: "Montserrat", "Open Sans", system-ui, Helvetica, Arial, sans-serif;
+
 	color: hsl(223 21% 27%);
 	background-color: var(--bg-color);
 }
@@ -109,7 +111,7 @@ main {
 }
 
 #show-stats:where(:hover, :active, :focus) {
-	--border-color: hsl(219 20% 70%);
+	--border-color: var(--gray-color);
 }
 
 #give-up {
@@ -266,15 +268,15 @@ main {
 	}
 
 	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"]) :where(button, [property="letter"]).absent {
-		--bg: hsl(219 20% 70%);
+		--bg: var(--gray-color);
 	}
 
 	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"]) :where(button, [property="letter"]).elsewhere {
-		--bg: hsl(44, 89%, 58%);
+		--bg: var(--yellow-color);
 	}
 
 	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"]) :where(button, [property="letter"]).correct {
-		--bg: hsl(97 42% 52%);
+		--bg: var(--green-color);
 	}
 
 	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"]) :where(button, [property="letter"]):where(.absent, .elsewhere, .correct) {
@@ -400,7 +402,7 @@ main {
 			border: none;
 			border-radius: 0.3em;
 
-			color: hsl(219 20% 70%);
+			color: var(--gray-color);
 			background: hsl(222 32% 90%);
 
 			text-transform: uppercase;
@@ -443,8 +445,8 @@ main {
 		border-radius: 0.3em;
 
 		color: whitesmoke;
-		background: hsl(120 34% 51%);
-		box-shadow: 0 4px 0 hsl(120 68% 33%);
+		background: var(--green-color);
+		box-shadow: 0 4px 0 hsl(var(--green-hs) 18%);
 
 		font-family: inherit;
 		font-size: 70%;
@@ -458,7 +460,7 @@ main {
 	}
 
 	[mv-app="popup"]>button:where(:hover, :active, :focus) {
-		background-color: hsl(120 34% 58%);
+		background-color: hsl(var(--green-hs) 38%);
 	}
 
 [mv-app="statistics"]>article>h1 {
@@ -541,7 +543,7 @@ main {
 }
 
 [mv-app="statistics"] [mv-list="guessCount"]>[mv-list-item] {
-	--color: hsl(120 68% 33%);
+	--color: var(--green-color);
 	--inset: 0.5em;
 
 	margin-block: 0.25em;
