@@ -92,7 +92,7 @@ condense(filter(guessLetters, hiddenWordLetters = guessLetters))
 guessLength = 5 and guess = hiddenWord
 ```
 
-2. The user loses the game if they have used his last (the 6th) attempt and the guess (valid 5 letters word) doesn't match the hidden word:
+2. The user loses the game if they have used their last (the 6th) attempt and the guess (valid 5 letters word) doesn't match the hidden word:
 
 ```js
 guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord
