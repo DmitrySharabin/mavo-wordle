@@ -69,21 +69,6 @@ if(key in correctLetters, correct, if(contains(hiddenWord, key), elsewhere, abse
 if(attempt > 1, if(contains(join(guesses), key), if(key in correctLetters, correct, if(contains(hiddenWord, key), elsewhere, absent))))
 ```
 
-#### How to get a collection of correctly guessed letters?
-
-1. We add letters to the `correctLetters` collection only when the user committed *a valid guess*: i.e., the guess is *5 characters long* and is *in the list of supported words*:
-
-```js
-guessLength = 5 and guessValid
-```
-
-2. We need to filter out letters of the `guessLetters` collection that are *in the correct places inside the hidden word* by splitting the hidden word into letters and matching them with the corresponding letters in a guess:
-
-```js
-condense(filter(guessLetters, hiddenWordLetters = guessLetters))
-```
-
-
 ### When the game is over?
 
 1. The user wins the game if the guess (5 letters word) matches the hidden word:

@@ -36,6 +36,7 @@
 			<meta property="guess" content="[join(guessLetters)]" />
 			<meta property="guessLength" content="[len(guess)]" />
 			<meta property="guessValid" content="[guess in possibleWords.words or guess in commonWords.words]" />
+			<meta property="correctLetters" content="[unique(condense(usedLetters where state = correct).letter)]" />
 
 			<div id="toolbar">
 				<button id="give-up" class="[if(attempt > 1, visible)]"
@@ -75,17 +76,13 @@
 						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & add(group('guess': 0), statistics.games) & set(popup.isShowing, true))
 						if(guessLength = 5 and guess = hiddenWord, set(isOver, true) & set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & add(group('guess': attempt), statistics.games) & set(popup.isShowing, true))
 
-						if(guessLength = 5 and guessValid, add(guess, guesses) & add(condense(filter(guessLetters, hiddenWordLetters = guessLetters)), correctLetters) & clear(guessLetters))
+						if(guessLength = 5 and guessValid, add(guess, guesses) & clear(guessLetters))
 					" style="--row: 3; --column: 1">Enter</button>
 				</div>
 			</div>
 
 			<div mv-list="guessLetters" mv-initial-items="0" mv-if="false">
 				<span mv-list-item></span>
-			</div>
-
-			<div mv-list="correctLetters" mv-initial-items="0" mv-if="false">
-				<span></span>
 			</div>
 
 			<div mv-list="guesses" mv-initial-items="0" mv-if="false">
@@ -113,7 +110,7 @@
 			</article>
 
 			<button property="cta" mv-attribute="none" mv-action="
-				if(game.isOver, set(commonWords.randomWord, first(shuffle(commonWords.words))) & clear(game.usedLetters, game.correctLetters, game.guessLetters, game.guesses) & set(game.isOver, false))
+				if(game.isOver, set(commonWords.randomWord, first(shuffle(commonWords.words))) & clear(game.usedLetters, game.guessLetters, game.guesses) & set(game.isOver, false))
 				set(isShowing, false)
 			"></button>
 		</section>
