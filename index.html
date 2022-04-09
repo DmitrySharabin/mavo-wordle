@@ -11,8 +11,6 @@
 	<link rel="stylesheet prefetch" href="https://get.mavo.io/mavo.min.css" />
 	<script src="https://get.mavo.io/mavo.es5.min.js"></script>
 
-	<script src="https://dmitrysharabin.github.io/mavo-share/mavo-share.js"></script>
-
 	<link rel="stylesheet prefetch" href="style.css" />
 	<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🔮</text></svg>' />
 
@@ -92,7 +90,7 @@
 			</div>
 		</section>
 
-		<section mv-app="popup" mv-bar="none" class="[if(isShowing, visible)] [if(game.isOver, 'game-over ' & game.result)]">
+		<section mv-app="popup" mv-bar="none" mv-plugins="share" class="[if(isShowing, visible)] [if(game.isOver, 'game-over ' & game.result)]">
 			<meta property="isShowing" content="[false]" />
 
 			<p property="message"></p>
