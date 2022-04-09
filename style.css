@@ -391,6 +391,8 @@ main {
 		}
 
 		[mv-app="popup"]>article>button {
+			--color: hsl(220 13% 41%);
+
 			grid-row: span 2;
 
 			position: relative;
@@ -398,23 +400,39 @@ main {
 			display: flex;
 
 			padding: 0.4em 0.6em;
+			padding-block-start: 0.5em;
 
-			border: none;
+			border: 2px solid;
 			border-radius: 0.3em;
 
-			color: var(--gray-color);
-			background: hsl(222 32% 90%);
+			color: var(--color);
 
 			text-transform: uppercase;
 			line-height: 1;
 			font-family: inherit;
-			font-size: 120%;
+			font-size: 85%;
 			font-weight: 500;
+		}
+
+		[mv-app="popup"]>article>button:where(:hover, :active, :focus-visible) {
+			color: whitesmoke;
+			background-color: var(--color);
+
+			border-color: transparent;
+
+			cursor: pointer;
+		}
+
+		[mv-app="popup"]>article>button:disabled {
+			color: var(--gray-color);
+			background: hsl(222 32% 90%);
+
+			border-color: transparent;
 
 			cursor: not-allowed;
 		}
 
-		[mv-app="popup"]>article>button::before {
+		[mv-app="popup"]>article>button:disabled:before {
 			content: "⚠️ Feature to come!";
 
 			white-space: nowrap;
@@ -431,10 +449,15 @@ main {
 		}
 
 		[mv-app="popup"]>article>button::after {
-			content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="%23a3aec2" d="M384 336a63.78 63.78 0 0 0-46.12 19.7l-148-83.27a63.85 63.85 0 0 0 0-32.86l148-83.27a63.8 63.8 0 1 0-15.73-27.87l-148 83.27a64 64 0 1 0 0 88.6l148 83.27A64 64 0 1 0 384 336z"/></svg>');
+			content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="%235b6476" d="M384 336a63.78 63.78 0 0 0-46.12 19.7l-148-83.27a63.85 63.85 0 0 0 0-32.86l148-83.27a63.8 63.8 0 1 0-15.73-27.87l-148 83.27a64 64 0 1 0 0 88.6l148 83.27A64 64 0 1 0 384 336z"/></svg>');
 
 			inline-size: 1em;
 			margin-inline-start: 0.2em;
+		}
+
+		[mv-app="popup"]>article>button:not(:disabled):where(:hover, :active, :focus-visible)::after {
+			filter: brightness(3);
+			opacity: 0.95;
 		}
 
 	[mv-app="popup"]>button {
