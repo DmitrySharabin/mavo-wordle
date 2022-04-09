@@ -406,6 +406,7 @@ main {
 			border-radius: 0.3em;
 
 			color: var(--color);
+			background-color: transparent;
 
 			text-transform: uppercase;
 			line-height: 1;
