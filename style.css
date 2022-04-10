@@ -642,7 +642,7 @@ main {
 
 @media (max-width: 415px) {
 	header {
-		margin-block-start: 4em;
+		/* margin-block-start: 4em; */
 		font-size: 60%;
 	}
 
@@ -680,6 +680,7 @@ main {
 	}
 
 	#ribbon {
+		display: none;
 		gap: 0.3em;
 		inset-inline-end: 0;
 		padding: 0.7em 3em;
