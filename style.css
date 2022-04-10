@@ -665,6 +665,12 @@ main {
 		font-size: 130%;
 	}
 
+	[mv-app="popup"]>article>button {
+		border-width: 1px;
+
+		font-size: 95%;
+	}
+
 	[mv-app="popup"]>article>button::before {
 		font-size: 8px;
 	}
