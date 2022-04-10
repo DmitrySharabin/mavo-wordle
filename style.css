@@ -699,3 +699,9 @@ main {
 		font-size: 80%;
 	}
 }
+
+@media (max-width: 320px) {
+	#keyboard {
+		font-size: 73%;
+	}
+}
