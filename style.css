@@ -2,11 +2,13 @@
 html {
 	--bg-color: hsl(60 17% 98%);
 
-	--green-hs: 120 68%;
-	--green-color: hsl(var(--green-hs) 33%);
+	--green-hs: 115 29%;
+	--green-color: hsl(var(--green-hs) 43%);
 
-	--yellow-color: hsl(44, 89%, 48%);
-	--gray-color: hsl(219 20% 70%);
+	--yellow-color: hsl(49 51% 47%);
+
+	--gray-color: hsl(200 2% 48%);
+	--light-gray-color: hsl(214 9% 84%);
 
 	box-sizing: border-box;
 
@@ -105,7 +107,7 @@ main {
 	}
 
 #show-stats {
-	--bg: hsl(222 32% 90%);
+	--bg: var(--light-gray-color);
 
 	padding: 0.2em;
 }
@@ -238,8 +240,8 @@ main {
 		border: none;
 		border-radius: 0.3em;
 
-		color: var(--color, hsl(221 13% 41%));
-		background-color: var(--bg, hsl(222 32% 90%));
+		color: var(--color, hsl(221 13% 35%));
+		background-color: var(--bg, var(--light-gray-color));
 
 		font-size: 120%;
 		font-weight: 600;
@@ -284,7 +286,7 @@ main {
 	}
 
 	#keyboard [mv-list="keys"]>button:not(.absent, .elsewhere, .correct):where(:hover, :active, :focus) {
-		--bg: hsl(223 27% 82%);
+		--bg: hsl(214 9% 75%);
 	}
 
 [mv-app="popup"],
@@ -484,7 +486,7 @@ main {
 	}
 
 	[mv-app="popup"]>button:where(:hover, :active, :focus) {
-		background-color: hsl(var(--green-hs) 38%);
+		background-color: hsl(var(--green-hs) 35%);
 	}
 
 [mv-app="statistics"]>article>h1 {
@@ -567,7 +569,7 @@ main {
 }
 
 [mv-app="statistics"] [mv-list="guessCount"]>[mv-list-item] {
-	--color: var(--green-color);
+	--color: hsl(120 68% 33%);
 	--inset: 0.5em;
 
 	margin-block: 0.25em;
