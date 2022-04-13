@@ -569,7 +569,7 @@ main {
 }
 
 [mv-app="statistics"] [mv-list="guessCount"]>[mv-list-item] {
-	--color: hsl(120 68% 33%);
+	--color: var(--green-color);
 	--inset: 0.5em;
 
 	margin-block: 0.25em;
