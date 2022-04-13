@@ -143,7 +143,7 @@
 				</p>
 
 				<meta property="attempts" content="[if(result = won, count(guesses), X)]" />
-				<meta property="heading" content="Mavordle [commonWords.index] [attempts]/6" />
+				<meta property="heading" content="Mavordle [commonWords.index + 1] [attempts]/6" />
 
 				<div mv-list mv-value="usedLetters.state" mv-initial-items="0" hidden>
 					<span mv-list-item="symbol">[if($index mod 5 = 0, "\n")][if($item = correct, "🟩", if($item = elsewhere, "🟨", "⬜️"))]</span>
