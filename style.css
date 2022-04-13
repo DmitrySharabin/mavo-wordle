@@ -426,31 +426,6 @@ main {
 			cursor: pointer;
 		}
 
-		[mv-app="popup"]>article>button:disabled {
-			color: var(--gray-color);
-			background: hsl(222 32% 90%);
-
-			border-color: transparent;
-
-			cursor: not-allowed;
-		}
-
-		[mv-app="popup"]>article>button:disabled:before {
-			content: "⚠️ Feature to come!";
-
-			white-space: nowrap;
-
-			position: absolute;
-			inset-inline-start: 0;
-			inset-block-end: -1.3em;
-
-			color: brown;
-
-			text-transform: initial;
-			font-size: 50%;
-			font-weight: 700;
-		}
-
 		[mv-app="popup"]>article>button::after {
 			content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="%235b6476" d="M384 336a63.78 63.78 0 0 0-46.12 19.7l-148-83.27a63.85 63.85 0 0 0 0-32.86l148-83.27a63.8 63.8 0 1 0-15.73-27.87l-148 83.27a64 64 0 1 0 0 88.6l148 83.27A64 64 0 1 0 384 336z"/></svg>');
 
@@ -458,7 +433,7 @@ main {
 			margin-inline-start: 0.2em;
 		}
 
-		[mv-app="popup"]>article>button:not(:disabled):where(:hover, :active, :focus-visible)::after {
+		[mv-app="popup"]>article>button:where(:hover, :active, :focus-visible)::after {
 			filter: brightness(3);
 			opacity: 0.95;
 		}
@@ -644,7 +619,6 @@ main {
 
 @media (max-width: 415px) {
 	header {
-		/* margin-block-start: 4em; */
 		font-size: 60%;
 	}
 
@@ -689,16 +663,6 @@ main {
 
 	#ribbon {
 		display: none;
-		gap: 0.3em;
-		inset-inline-end: 0;
-		padding: 0.7em 3em;
-		flex-direction: revert;
-		transform: revert;
-	}
-
-	#ribbon a {
-		display: flex;
-		align-self: stretch;
 	}
 }
 
