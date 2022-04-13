@@ -26,7 +26,7 @@
 
 	<main>
 		<section mv-app="game" mv-bar="none" class="[if(popup.isShowing or statistics.isShowing, backdrop)]">
-			<meta property="hiddenWord" content="[commonWords.randomWord]" mv-if="false" />
+			<meta property="hiddenWord" content="[commonWords.todaysWord]" mv-if="false" />
 			<meta property="hiddenWordLetters" content="[split(hiddenWord, '')]" mv-if="false" />
 
 			<meta property="isOver" content="[false]" />
@@ -39,14 +39,10 @@
 			<meta property="correctLetters" content="[unique(condense(usedLetters where state = correct).letter)]" />
 
 			<div id="toolbar">
-				<button id="give-up" class="[if(attempt > 1, visible)]"
-					mv-action="set(isOver, true) set(result, 'lost') set(popup.message, hiddenWord) set(popup.cta, 'Play again') add(group('guess': 0), statistics.games) set(popup.isShowing, true)"
-				>Give up</button>
-
 				<img id="show-stats" src="stats-chart.svg" width="32" height="32" alt="Chart icon" role="button" tabindex="0" mv-action="set(statistics.isShowing, true)" aria-label="Show statistics" />
 			</div>
 
-			<div mv-list="usedLetters" mv-initial-items="0">
+			<div mv-list="usedLetters" mv-value="if($today = statistics.date, statistics.usedLetters) or list()" mv-initial-items="0">
 				<div mv-list-item>
 					<meta property="row" content="[floor($index / 5)]" />
 					<meta property="thisRowLetters" content="[split(get(guesses, row), '')]" />
@@ -63,21 +59,23 @@
 						mv-action="if(guessLength < 5, add(group('letter': key), usedLetters) & add(key, guessLetters))"
 						mv-attribute="data-key"
 						class="[if(attempt > 1, if(contains(join(guesses), key), if(key in correctLetters, correct, if(contains(hiddenWord, key), elsewhere, absent))))]"
-						style="--row: [row]">[key]</button>
+						style="--row: [row]"
+						disabled="[$today = statistics.date]">[key]</button>
 
 					<button id="bs"
 						mv-action="deleteif(guessLength > 0, last(game.usedLetters)) delete(last(game.guessLetters))"
-						style="--row: 3; --column: 9" aria-label="Delete last letter">⌫</button>
+						style="--row: 3; --column: 9" aria-label="Delete last letter"
+						disabled="[$today = statistics.date]">⌫</button>
 
 					<button id="enter" mv-action="
 						if(0 < guessLength < 5, set(popup.message, 'Too short') & set(popup.cta, 'Continue') & set(popup.isShowing, true))
 						if(guessLength = 5 and !guessValid, set(popup.message, 'Not in a word list') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
 
-						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(isOver, true) & set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.cta, 'Play again') & add(group('guess': 0), statistics.games) & set(popup.isShowing, true))
-						if(guessLength = 5 and guess = hiddenWord, set(isOver, true) & set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Play again') & add(group('guess': attempt), statistics.games) & set(popup.isShowing, true))
+						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(isOver, true) & set(result, 'lost') & add(group('guess': 0), statistics.games) & set(statistics.currentStreak, 0) & set(popup.message, hiddenWord) & set(popup.cta, 'Close') & set(popup.isShowing, true))
+						if(guessLength = 5 and guess = hiddenWord, set(isOver, true) & set(result, 'won') & add(group('guess': attempt), statistics.games) & set(statistics.currentStreak, statistics.currentStreak + 1) & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Close') & set(popup.isShowing, true))
 
 						if(guessLength = 5 and guessValid, add(guess, guesses) & clear(guessLetters))
-					" style="--row: 3; --column: 1">Enter</button>
+					" style="--row: 3; --column: 1" disabled="[$today = statistics.date]">Enter</button>
 				</div>
 			</div>
 
@@ -85,60 +83,73 @@
 				<span mv-list-item></span>
 			</div>
 
-			<div mv-list="guesses" mv-initial-items="0" mv-if="false">
+			<div mv-list="guesses" mv-value="if($today = statistics.date, statistics.guesses) or list()" mv-initial-items="0" mv-if="false">
 				<span mv-list-item></span>
 			</div>
 		</section>
 
-		<section mv-app="popup" mv-bar="none" mv-plugins="share" class="[if(isShowing, visible)] [if(game.isOver, 'game-over ' & game.result)]">
+		<section mv-app="popup" mv-bar="none" class="[if(isShowing, visible)] [if(game.isOver, 'game-over ' & game.result)]">
 			<meta property="isShowing" content="[false]" />
 
 			<p property="message"></p>
 
-			<article mv-if="game.isOver and game.result = 'won'">
-				<h1 property="heading">Mavordle [statistics.played] [count(game.guesses)]/6</h1>
-
-				<p mv-list mv-value="game.usedLetters">
-					<span mv-list-item="letter" mv-group>
-						<span property="symbol">[if($index mod 5 = 0, "\n")][if(state = correct, "🟩", if(state = elsewhere, "🟨", "⬜️"))]</span>
-					</span>
-				</p>
-
-				<button mv-action="share(heading & '\n' & join(symbol))">Share</button>
-			</article>
-
 			<button property="cta" mv-attribute="none" mv-action="
-				if(game.isOver, set(commonWords.randomWord, first(shuffle(commonWords.words))) & clear(game.usedLetters, game.guessLetters, game.guesses) & set(game.isOver, false))
+				if(game.isOver, set(statistics.usedLetters, game.usedLetters) & set(statistics.guesses, game.guesses) & set(statistics.result, game.result) & setif(statistics.currentStreak > statistics.maxStreak, statistics.maxStreak, statistics.currentStreak) & set(statistics.date, $today))
 				set(isShowing, false)
 			"></button>
 		</section>
 
-		<section mv-app="statistics" mv-bar="none" mv-storage="local" mv-autosave class="[if(isShowing, visible)]">
-			<meta property="isShowing" content="[false]" />
+		<section mv-app="statistics" mv-bar="none" mv-storage="local" mv-plugins="share" mv-autosave class="[if(isShowing, visible)]">
+			<meta property="isShowing" content="[$today = date]" />
 
-			<meta property="played" content="[count(games)]" />
-			<meta property="wins" content="[count(games where guess > 0) or 0]" />
+			<meta property="date" />
+			<meta property="result" />
+			<meta property="guesses" mv-if="false" />
+			<meta property="usedLetters" mv-if="false" />
 
 			<button mv-action="set(isShowing, false)" aria-label="Close dialog">✖️</button>
-
+			
 			<article class="stats">
-				<h1>Statistics</h1>
+				<h2>Statistics</h2>
+				
+				<meta property="wins" content="[count(games where guess > 0)]" />
 
-				<span>[statistics.played]</span>
-				<span>[round(statistics.wins / statistics.played * 100) or 0]</span>
+				<span title="Played" property="played" mv-value="count(games)">0</span>
+				<span title="Win %">[round(wins / played * 100) or 0]</span>
+				<span title="Current Streak" property="currentStreak" mv-default>0</span>
+				<span title="Max Streak" property="maxStreak" mv-default>0</span>
 			</article>
 
-			<article>
-				<h1>
-					Guess Distribution
-				</h1>
+			<article class="guess-distribution">
+				<h2>Guess Distribution</h2>
 
-				<ol mv-list="guessCount" mv-value="1 .. 6" style="--max: [if(wins > 0, wins, 'initial')]">
+				<p mv-if="played = 0">No Data</p>
+
+				<ol mv-if="played > 0" mv-list="guessCount" mv-value="1 .. 6" style="--max: [if(wins > 0, wins, 'initial')]">
 					<li mv-list-item mv-attribute="content" style="--value: [value]; [if(value = 0, '--color: initial; --inset: initial;')]">
-						<meta property="value" content="[count(filter(games, guess = guessCount)) or 0]" />
-						<span>[value]</span>
+						<span property="value">[count(filter(games, guess = guessCount)) or 0]</span>
 					</li>
 				</ol>
+			</article>
+
+			<article mv-if="$today = date" class="next-mavordle">
+				<meta property="tomorrow" content="[$today + 1 * day()]" />
+				<meta property="difference" content="[tomorrow - $now]" />
+
+				<h2>Next Mavordle</h2>
+
+				<p class="timer">
+					[digits(2, hours(difference))]:[digits(2, minutes(difference) mod 60)]:[digits(2, seconds(difference) mod 60)]
+				</p>
+
+				<meta property="attempts" content="[if(result = won, count(guesses), X)]" />
+				<meta property="heading" content="Mavordle [commonWords.index] [attempts]/6" />
+
+				<div mv-list mv-value="usedLetters.state" mv-initial-items="0" hidden>
+					<span mv-list-item="symbol">[if($index mod 5 = 0, "\n")][if($item = correct, "🟩", if($item = elsewhere, "🟨", "⬜️"))]</span>
+				</div>
+
+				<button mv-action="share(heading & '\n' & join(symbol))">Share</button>
 			</article>
 
 			<div mv-list="games" mv-initial-items="0">
@@ -159,7 +170,10 @@
 
 		<!-- Credit: https://github.com/ewinapun/wordle-master -->
 		<section mv-app="commonWords" mv-source="commonWords.json" mv-bar="none">
-			<meta property="randomWord" content="[first(shuffle(words))]" mv-if="false" />
+			<meta property="startDate" content="2022-02-01" />
+			<meta property="words" mv-if="false" />
+			<meta property="index" content="[days($today - startDate) mod count(words)]" mv-if="false" />
+			<meta property="todaysWord" content="[get(words, index)]" mv-if="false" />
 		</section>
 	</main>
 

@@ -9,12 +9,13 @@ html {
 
 	--gray-color: hsl(200 2% 48%);
 	--light-gray-color: hsl(214 9% 84%);
+	--dark-gray-color: hsl(223 21% 27%);
 
 	box-sizing: border-box;
 
 	font-family: "Montserrat", "Open Sans", system-ui, Helvetica, Arial, sans-serif;
 
-	color: hsl(223 21% 27%);
+	color: var(--dark-gray-color);
 	background-color: var(--bg-color);
 }
 
@@ -83,56 +84,33 @@ main {
 
 #toolbar {
 	margin: 1.2em 2em;
+	margin-inline-start: auto;
 
-	display: flex;
-	justify-content: space-between;
+	inline-size: fit-content;
 }
-
-	#toolbar>:where(button, [role="button"]) {
-		block-size: 2.5em;
-		padding: 0.1em 0.5em;
-
-		border-radius: 0.5em;
-		border: 2px dotted var(--border-color, transparent);
-
-		color: var(--color);
-		background: var(--bg);
-
-		font-size: 90%;
-		font-weight: 700;
-
-		transition: border-color 0.2s;
-
-		cursor: pointer;
-	}
 
 #show-stats {
 	--bg: var(--light-gray-color);
 
+	block-size: 2.5em;
 	padding: 0.2em;
+
+	border-radius: 0.5em;
+	border: 2px dotted var(--border-color, transparent);
+
+	color: var(--color);
+	background: var(--bg);
+
+	font-size: 90%;
+	font-weight: 700;
+
+	transition: border-color 0.2s;
+
+	cursor: pointer;
 }
 
 #show-stats:where(:hover, :active, :focus) {
 	--border-color: var(--gray-color);
-}
-
-#give-up {
-	visibility: hidden;
-
-	--color: hsl(339 24% 58%);
-	--bg: hsl(347 35% 92%);
-}
-
-#give-up:where(:hover, :active, :focus) {
-	--border-color: hsl(339 24% 70%);
-}
-
-#give-up.visible {
-	visibility: revert;
-}
-
-#give-up::before {
-	content: "💔 ";
 }
 
 [mv-app="game"] [mv-list="usedLetters"] {
@@ -246,7 +224,9 @@ main {
 		font-size: 120%;
 		font-weight: 600;
 		text-transform: uppercase;
+	}
 
+	#keyboard [mv-list="keys"]>button:not(:disabled) {
 		cursor: pointer;
 	}
 
@@ -285,7 +265,7 @@ main {
 		--color: whitesmoke;
 	}
 
-	#keyboard [mv-list="keys"]>button:not(.absent, .elsewhere, .correct):where(:hover, :active, :focus) {
+	#keyboard [mv-list="keys"]>button:not(:disabled, .absent, .elsewhere, .correct):where(:hover, :active, :focus) {
 		--bg: hsl(214 9% 75%);
 	}
 
@@ -372,7 +352,7 @@ main {
 		font-size: 80%;
 	}
 
-		[mv-app="popup"]>article>h1 {
+		[mv-app="popup"]>article>h2 {
 			margin: 0;
 
 			font-size: inherit;
@@ -392,52 +372,6 @@ main {
 			font-size: 100%;
 		}
 
-		[mv-app="popup"]>article>button {
-			--color: hsl(220 13% 41%);
-
-			grid-row: span 2;
-
-			position: relative;
-
-			display: flex;
-
-			padding: 0.4em 0.6em;
-			padding-block-start: 0.5em;
-
-			border: 2px solid;
-			border-radius: 0.3em;
-
-			color: var(--color);
-			background-color: transparent;
-
-			text-transform: uppercase;
-			line-height: 1;
-			font-family: inherit;
-			font-size: 85%;
-			font-weight: 500;
-		}
-
-		[mv-app="popup"]>article>button:where(:hover, :active, :focus-visible) {
-			color: whitesmoke;
-			background-color: var(--color);
-
-			border-color: transparent;
-
-			cursor: pointer;
-		}
-
-		[mv-app="popup"]>article>button::after {
-			content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="%235b6476" d="M384 336a63.78 63.78 0 0 0-46.12 19.7l-148-83.27a63.85 63.85 0 0 0 0-32.86l148-83.27a63.8 63.8 0 1 0-15.73-27.87l-148 83.27a64 64 0 1 0 0 88.6l148 83.27A64 64 0 1 0 384 336z"/></svg>');
-
-			inline-size: 1em;
-			margin-inline-start: 0.2em;
-		}
-
-		[mv-app="popup"]>article>button:where(:hover, :active, :focus-visible)::after {
-			filter: brightness(3);
-			opacity: 0.95;
-		}
-
 	[mv-app="popup"]>button {
 		margin-block: 0.7em;
 		padding: 0.7em 0.7em;
@@ -446,8 +380,7 @@ main {
 		border-radius: 0.3em;
 
 		color: whitesmoke;
-		background: var(--green-color);
-		box-shadow: 0 4px 0 hsl(var(--green-hs) 18%);
+		background-color: var(--green-color);
 
 		font-family: inherit;
 		font-size: 70%;
@@ -461,17 +394,21 @@ main {
 	}
 
 	[mv-app="popup"]>button:where(:hover, :active, :focus) {
-		background-color: hsl(var(--green-hs) 35%);
+		--green-color: hsl(var(--green-hs) 50%);
 	}
 
-[mv-app="statistics"]>article>h1 {
+[mv-app="statistics"]>article + article {
+	margin-block-start: 1.35em;
+}
+
+[mv-app="statistics"]>article>h2 {
 	margin: 0;
 
 	font-size: 70%;
 	font-weight: 600;
 
 	text-transform: uppercase;
-	letter-spacing: 0.05em;
+	letter-spacing: 0.03em;
 }
 
 [mv-app="statistics"]>button {
@@ -498,18 +435,19 @@ main {
 
 [mv-app="statistics"]>.stats {
 	inline-size: fit-content;
-	margin: 0.4em auto 1.2em;
+	margin-block-start: 0.4em;
+	margin-inline: auto;
 
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: repeat(4, min-content);
 	gap: 0.2em 1em;
 	justify-items: center;
 
 	font-weight: 500;
 }
 
-[mv-app="statistics"]>.stats>h1 {
-	grid-column: span 2;
+[mv-app="statistics"]>.stats>h2 {
+	grid-column: span 4;
 }
 
 [mv-app="statistics"]>.stats>span {
@@ -521,16 +459,21 @@ main {
 }
 
 [mv-app="statistics"]>.stats>span::after {
-	font-size: 50%;
+	font-size: 40%;
 	font-weight: 200;
 }
 
-[mv-app="statistics"]>.stats>span:first-of-type::after {
-	content: "Played";
+[mv-app="statistics"]>.stats>span::after {
+	content: attr(title);
 }
 
-[mv-app="statistics"]>.stats>span:last-of-type::after {
-	content: "Win %"
+[mv-app="statistics"]>.stats>span:nth-of-type(2)::after {
+	white-space: nowrap;
+}
+
+[mv-app="statistics"]>.guess-distribution>p {
+	font-size: 70%;
+	font-weight: 200;
 }
 
 [mv-app="statistics"] [mv-list="guessCount"] {
@@ -574,6 +517,76 @@ main {
 
 	font-weight: 700;
 }
+
+[mv-app="statistics"]>.next-mavordle {
+	position: relative;
+
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 0.15em 1em;
+	place-items: center;
+}
+
+	[mv-app="statistics"]>.next-mavordle>.timer {
+		margin: 0;
+
+		font-size: 150%;
+		font-weight: 100;
+		letter-spacing: 0.01em;
+		font-variant-numeric: tabular-nums;
+	}
+
+	[mv-app="statistics"]>.next-mavordle>button {
+			--color: hsl(220 13% 41%);
+
+			grid-area: 1 / 2 / 3 / 3;
+
+			display: flex;
+
+			padding: 0.5em 1em;
+			padding-block-start: 0.6em;
+
+			border: none;
+			border-radius: 0.3em;
+
+			color: whitesmoke;
+			background-color: var(--green-color);
+
+			text-transform: uppercase;
+			line-height: 1;
+			font-family: inherit;
+			font-size: 85%;
+			font-weight: 700;
+
+			transition: background-color 200ms;
+		}
+
+		[mv-app="statistics"]>.next-mavordle>button:where(:hover, :active, :focus-visible) {
+			--green-color: hsl(var(--green-hs) 50%);
+
+			cursor: pointer;
+		}
+
+		[mv-app="statistics"]>.next-mavordle>button::before {
+			content: "";
+
+			position: absolute;
+			inset: 50% auto auto 50%;
+			transform: translate(-50%, -50%);
+
+			inline-size: 0.1em;
+			block-size: 100%;
+
+			background-color: var(--dark-gray-color);
+
+		}
+
+		[mv-app="statistics"]>.next-mavordle>button::after {
+			content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="%23f5f5f5" d="M384 336a63.78 63.78 0 0 0-46.12 19.7l-148-83.27a63.85 63.85 0 0 0 0-32.86l148-83.27a63.8 63.8 0 1 0-15.73-27.87l-148 83.27a64 64 0 1 0 0 88.6l148 83.27A64 64 0 1 0 384 336z"/></svg>');
+
+			inline-size: 1em;
+			margin-inline-start: 0.2em;
+		}
 
 #attribution {
 	margin-block-start: 5em;
