@@ -42,7 +42,7 @@
 				<img id="show-stats" src="stats-chart.svg" width="32" height="32" alt="Chart icon" role="button" tabindex="0" mv-action="set(statistics.isShowing, true)" aria-label="Show statistics" />
 			</div>
 
-			<div mv-list="usedLetters" mv-value="if($today = statistics.date, statistics.usedLetters) or list()" mv-initial-items="0">
+			<div mv-list="usedLetters" mv-value="if($today = statistics.date, statistics.usedLetters, list())" mv-initial-items="0">
 				<div mv-list-item>
 					<meta property="row" content="[floor($index / 5)]" />
 					<meta property="thisRowLetters" content="[split(get(guesses, row), '')]" />
@@ -83,7 +83,7 @@
 				<span mv-list-item></span>
 			</div>
 
-			<div mv-list="guesses" mv-value="if($today = statistics.date, statistics.guesses) or list()" mv-initial-items="0" mv-if="false">
+			<div mv-list="guesses" mv-value="if($today = statistics.date, statistics.guesses, list())" mv-initial-items="0" mv-if="false">
 				<span mv-list-item></span>
 			</div>
 		</section>
