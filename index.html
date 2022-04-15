@@ -31,6 +31,7 @@
 			<meta property="hiddenWordLetters" content="[split(hiddenWord, '')]" mv-if="false" />
 
 			<meta property="result" />
+			<meta property="isOver" content="[$today = statistics.date]" />
 
 			<meta property="attempt" content="[count(guesses) + 1]" />
 			<meta property="guess" content="[join(guessLetters)]" />
@@ -47,7 +48,7 @@
 				<img id="show-stats" src="stats-chart.svg" width="32" height="32" alt="Chart icon" role="button" tabindex="0" mv-action="set(statistics.isShowing, true)" aria-label="Show statistics" />
 			</div>
 
-			<div mv-list="usedLetters" mv-value="if($today = statistics.date, statistics.usedLetters, list())" mv-initial-items="0">
+			<div mv-list="usedLetters" mv-value="if(isOver, statistics.usedLetters, list())" mv-initial-items="0">
 				<div mv-list-item>
 					<meta property="row" content="[floor($index / 5)]" />
 					<meta property="thisRowLetters" content="[split(get(guesses, row), '')]" />
@@ -66,12 +67,12 @@
 						mv-attribute="data-key"
 						class="[if(attempt > 1, if(contains(join(guesses), key), if(key in correctLetters, correct, if(contains(hiddenWord, key), elsewhere, absent))))]"
 						style="--row: [row]"
-						disabled="[$today = statistics.date]">[key]</button>
+						disabled="[isOver]">[key]</button>
 
 					<button id="bs"
 						mv-action="deleteif(guessLength > 0, last(game.usedLetters)) delete(last(game.guessLetters))"
 						style="--row: 3; --column: 9" aria-label="Delete last letter"
-						disabled="[$today = statistics.date]">⌫</button>
+						disabled="[isOver]">⌫</button>
 
 					<button id="enter" mv-action="
 						if(0 < guessLength < 5, set(toast.message, 'Not enough letters') & set(toast.errorTime, seconds($now)))
@@ -81,7 +82,7 @@
 						if(guessLength = 5 and guess = hiddenWord, set(result, 'won') & add(group('guess': attempt), statistics.games) & set(statistics.currentStreak, statistics.currentStreak + 1) & set(popup.message, 'You won! 🎉') & set(popup.isShowing, true))
 
 						if(guessLength = 5 and guessValid, add(guess, guesses) & clear(guessLetters))
-					" style="--row: 3; --column: 1" disabled="[$today = statistics.date]">Enter</button>
+					" style="--row: 3; --column: 1" disabled="[isOver]">Enter</button>
 				</div>
 			</div>
 
@@ -89,7 +90,7 @@
 				<span mv-list-item></span>
 			</div>
 
-			<div mv-list="guesses" mv-value="if($today = statistics.date, statistics.guesses, list())" mv-initial-items="0" mv-if="false">
+			<div mv-list="guesses" mv-value="if(isOver, statistics.guesses, list())" mv-initial-items="0" mv-if="false">
 				<span mv-list-item></span>
 			</div>
 		</section>
