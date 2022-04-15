@@ -521,6 +521,7 @@ main {
 
 [mv-app="statistics"]>.stats>span {
 	display: flex;
+	gap: 0.1em;
 	flex-direction: column;
 	align-items: center;
 
@@ -528,12 +529,11 @@ main {
 }
 
 [mv-app="statistics"]>.stats>span::after {
+	content: attr(title);
+
 	font-size: 40%;
 	font-weight: 200;
-}
-
-[mv-app="statistics"]>.stats>span::after {
-	content: attr(title);
+	line-height: 1;
 }
 
 [mv-app="statistics"]>.stats>span:nth-of-type(2)::after {
