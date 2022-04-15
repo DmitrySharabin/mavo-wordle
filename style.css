@@ -33,6 +33,11 @@ body {
 	padding: 0;
 }
 
+/* Credit: https://stackoverflow.com/questions/59732074/disable-double-tap-zoom-on-safari-ios-13 */
+body {
+	touch-action: manipulation;
+}
+
 header {
 	inline-size: fit-content;
 	margin-block-start: 1.3em;
