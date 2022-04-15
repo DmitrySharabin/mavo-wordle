@@ -39,8 +39,8 @@
 			<meta property="correctLetters" content="[unique(condense(usedLetters where state = correct).letter)]" />
 
 			<div id="toolbar">
-				<output property class="toast [if(seconds($now) - timer < 2, visible)]" role="status">
-					<meta property="timer" />
+				<output property class="toast [if(seconds($now) - errorTime < 2, visible)]" role="status">
+					<meta property="errorTime" />
 					<p property="message"></p>
 				</output>
 
@@ -51,10 +51,11 @@
 				<div mv-list-item>
 					<meta property="row" content="[floor($index / 5)]" />
 					<meta property="thisRowLetters" content="[split(get(guesses, row), '')]" />
+					<meta property="errorTime" />
 					<meta property="state"
 						content="[if(row < attempt - 1, if(get(hiddenWordLetters, $index mod 5) = letter, correct, if(letter in hiddenWordLetters, if(letter in filter(hiddenWordLetters, hiddenWordLetters = thisRowLetters) and count(filter(hiddenWordLetters, hiddenWordLetters != letter)) = 4, absent, elsewhere), absent)))]" />
 
-					<span property="letter" style="--row: [row + 1]" class="[state]"></span>
+					<span property="letter" style="--row: [row + 1]" class="[state] [if(row + 1 = attempt and seconds($now) - errorTime <= 1, shake)] [if(($index mod 5 + 1) <= guessLength or row < attempt - 1, idle)]"></span>
 				</div>
 			</div>
 
@@ -73,8 +74,8 @@
 						disabled="[$today = statistics.date]">⌫</button>
 
 					<button id="enter" mv-action="
-						if(0 < guessLength < 5, set(toast.message, 'Not enough letters') & set(toast.timer, seconds($now)))
-						if(guessLength = 5 and !guessValid, set(toast.message, 'Not in word list') & set(toast.timer, seconds($now)))
+						if(0 < guessLength < 5, set(toast.message, 'Not enough letters') & set(toast.errorTime, seconds($now)))
+						if(guessLength = 5 and !guessValid, set(toast.message, 'Not in word list') & set(errorTime, seconds($now)) & set(toast.errorTime, seconds($now)))
 
 						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(result, 'lost') & add(group('guess': 0), statistics.games) & set(statistics.currentStreak, 0) & set(popup.message, hiddenWord) & set(popup.isShowing, true))
 						if(guessLength = 5 and guess = hiddenWord, set(result, 'won') & add(group('guess': attempt), statistics.games) & set(statistics.currentStreak, statistics.currentStreak + 1) & set(popup.message, 'You won! 🎉') & set(popup.isShowing, true))
