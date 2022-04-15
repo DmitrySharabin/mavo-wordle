@@ -182,7 +182,7 @@ main {
 			</defs>\
 			<rect clip-path="url(%23clip)" />\
 		</svg>');
-	background-size: auto;
+	background-size: calc(var(--size) * 1.074);
 }
 
 [mv-app="game"] [mv-list="usedLetters"]>[mv-list-item] {
@@ -706,10 +706,6 @@ main {
 
 	main {
 		font-size: 80%;
-	}
-
-	[mv-app="game"] [mv-list="usedLetters"] {
-		background-size: calc(var(--size) * 1.074);
 	}
 
 	#keyboard {
