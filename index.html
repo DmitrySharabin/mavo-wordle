@@ -30,7 +30,6 @@
 			<meta property="hiddenWord" content="[commonWords.todaysWord]" mv-if="false" />
 			<meta property="hiddenWordLetters" content="[split(hiddenWord, '')]" mv-if="false" />
 
-			<meta property="isOver" content="[false]" />
 			<meta property="result" />
 
 			<meta property="attempt" content="[count(guesses) + 1]" />
@@ -40,6 +39,11 @@
 			<meta property="correctLetters" content="[unique(condense(usedLetters where state = correct).letter)]" />
 
 			<div id="toolbar">
+				<output property class="toast [if(seconds($now) - timer < 2, visible)]" role="status">
+					<meta property="timer" />
+					<p property="message"></p>
+				</output>
+
 				<img id="show-stats" src="stats-chart.svg" width="32" height="32" alt="Chart icon" role="button" tabindex="0" mv-action="set(statistics.isShowing, true)" aria-label="Show statistics" />
 			</div>
 
@@ -69,11 +73,11 @@
 						disabled="[$today = statistics.date]">⌫</button>
 
 					<button id="enter" mv-action="
-						if(0 < guessLength < 5, set(popup.message, 'Too short') & set(popup.cta, 'Continue') & set(popup.isShowing, true))
-						if(guessLength = 5 and !guessValid, set(popup.message, 'Not in a word list') & set(popup.cta, 'Try again') & set(popup.isShowing, true))
+						if(0 < guessLength < 5, set(toast.message, 'Not enough letters') & set(toast.timer, seconds($now)))
+						if(guessLength = 5 and !guessValid, set(toast.message, 'Not in word list') & set(toast.timer, seconds($now)))
 
-						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(isOver, true) & set(result, 'lost') & add(group('guess': 0), statistics.games) & set(statistics.currentStreak, 0) & set(popup.message, hiddenWord) & set(popup.cta, 'Close') & set(popup.isShowing, true))
-						if(guessLength = 5 and guess = hiddenWord, set(isOver, true) & set(result, 'won') & add(group('guess': attempt), statistics.games) & set(statistics.currentStreak, statistics.currentStreak + 1) & set(popup.message, 'You won! 🎉') & set(popup.cta, 'Close') & set(popup.isShowing, true))
+						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(result, 'lost') & add(group('guess': 0), statistics.games) & set(statistics.currentStreak, 0) & set(popup.message, hiddenWord) & set(popup.isShowing, true))
+						if(guessLength = 5 and guess = hiddenWord, set(result, 'won') & add(group('guess': attempt), statistics.games) & set(statistics.currentStreak, statistics.currentStreak + 1) & set(popup.message, 'You won! 🎉') & set(popup.isShowing, true))
 
 						if(guessLength = 5 and guessValid, add(guess, guesses) & clear(guessLetters))
 					" style="--row: 3; --column: 1" disabled="[$today = statistics.date]">Enter</button>
@@ -89,15 +93,17 @@
 			</div>
 		</section>
 
-		<section mv-app="popup" mv-bar="none" class="[if(isShowing, visible)] [if(game.isOver, 'game-over ' & game.result)]">
+		<section mv-app="popup" mv-bar="none" class="[if(isShowing, visible)] game-over [game.result]">
 			<meta property="isShowing" content="[false]" />
 
 			<p property="message"></p>
 
-			<button property="cta" mv-attribute="none" mv-action="
-				if(game.isOver, set(statistics.usedLetters, game.usedLetters) & set(statistics.guesses, game.guesses) & set(statistics.result, game.result) & setif(statistics.currentStreak > statistics.maxStreak, statistics.maxStreak, statistics.currentStreak) & set(statistics.date, $today))
+			<button mv-action="
+				set(statistics.usedLetters, game.usedLetters) set(statistics.guesses, game.guesses) set(statistics.result, game.result)
+				setif(statistics.currentStreak > statistics.maxStreak, statistics.maxStreak, statistics.currentStreak)
+				set(statistics.date, $today)
 				set(isShowing, false)
-			"></button>
+			">Close</button>
 		</section>
 
 		<section mv-app="statistics" mv-bar="none" mv-storage="local" mv-plugins="share" mv-autosave class="[if(isShowing, visible)]">

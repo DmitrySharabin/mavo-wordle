@@ -94,6 +94,41 @@ main {
 	inline-size: fit-content;
 }
 
+	#toolbar > .toast {
+		position: absolute;
+		inset: auto;
+		inset-inline-start: 50%;
+		transform: translate(-50%, -0.65em);
+
+		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+		pointer-events: none;
+	}
+
+	#toolbar > .toast > p {
+		margin: 0;
+		padding: 1em 1.2em;
+
+		border-radius: 0.25em;
+
+		color: whitesmoke;
+		background-color: black;
+
+		font-weight: 600;
+	}
+
+	#toolbar > .toast:not(.visible) {
+		opacity: 0;
+
+		transition: opacity 150ms;
+	}
+
+	#toolbar > .toast.visible {
+		opacity: 1;
+
+		transition: opacity 200ms ease-out;
+	}
+
 #show-stats {
 	--bg: var(--light-gray-color);
 
@@ -116,6 +151,10 @@ main {
 
 #show-stats:where(:hover, :active, :focus) {
 	--border-color: var(--gray-color);
+}
+
+[mv-app="game"] {
+	position: relative;
 }
 
 [mv-app="game"] [mv-list="usedLetters"] {
