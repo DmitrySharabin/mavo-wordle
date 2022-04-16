@@ -27,7 +27,7 @@
 
 	<main>
 		<section mv-app="game" mv-bar="none" class="[if(popup.isShowing or statistics.isShowing, backdrop)]">
-			<meta property="hiddenWord" content="[commonWords.todaysWord]" mv-if="false" />
+			<meta property="hiddenWord" content="[if(isOver, statistics.hiddenWord, commonWords.todaysWord)]" mv-if="false" />
 			<meta property="hiddenWordLetters" content="[split(hiddenWord, '')]" mv-if="false" />
 
 			<meta property="result" />
@@ -101,7 +101,7 @@
 			<p property="message"></p>
 
 			<button mv-action="
-				set(statistics.usedLetters, game.usedLetters) set(statistics.guesses, game.guesses) set(statistics.result, game.result)
+				set(statistics.hiddenWord, game.hiddenWord) set(statistics.guesses, game.guesses) set(statistics.states, game.usedLetters.state) set(statistics.result, game.result)
 				setif(statistics.currentStreak > statistics.maxStreak, statistics.maxStreak, statistics.currentStreak)
 				set(statistics.date, $today)
 				set(isShowing, false)
@@ -113,8 +113,9 @@
 
 			<meta property="date" />
 			<meta property="result" />
+			<meta property="hiddenWord" mv-if="false" />
 			<meta property="guesses" mv-if="false" />
-			<meta property="usedLetters" mv-if="false" />
+			<meta property="states" mv-if="false" />
 
 			<button mv-action="set(isShowing, false)" aria-label="Close dialog">✖️</button>
 			
@@ -154,7 +155,7 @@
 				<meta property="attempts" content="[if(result = won, count(guesses), X)]" />
 				<meta property="heading" content="Mavordle [commonWords.index + 1] [attempts]/6" />
 
-				<div mv-list mv-value="usedLetters.state" mv-initial-items="0" hidden>
+				<div mv-list mv-value="states" mv-initial-items="0" hidden>
 					<div mv-list-item="state" mv-attribute="content">
 						<span property="symbol">[if($index mod 5 = 0, "\n") & if(state = correct, "🟩", if(state = elsewhere, "🟨", "⬜️"))]</span>
 					</div>
@@ -162,6 +163,12 @@
 
 				<button mv-action="share(heading & '\n' & join(symbol))">Share</button>
 			</article>
+
+			<div mv-list="usedLetters" mv-value="split(join(guesses), '')" mv-initial-items="0" hidden>
+				<div mv-list-item>
+					<span property="letter"></span>
+				</div>
+			</div>
 
 			<div mv-list="games" mv-initial-items="0">
 				<div mv-list-item>
