@@ -169,20 +169,8 @@ main {
 	grid-template-rows: repeat(6, var(--size));
 	gap: 0.3em;
 
-	background-image: url('data:image/svg+xml,\
-		<svg xmlns="http://www.w3.org/2000/svg" width="4.3em" height="4.3em">\
-			<style>\
-				rect {\
-					width: 4em; height: 4em;\
-					fill: transparent; stroke: %239aa6b499; stroke-width: .2em\
-				}\
-			</style>\
-			<defs>\
-				<clipPath id="clip"><rect /></clipPath>\
-			</defs>\
-			<rect clip-path="url(%23clip)" />\
-		</svg>');
-	background-size: calc(var(--size) * 1.074);
+	background-image: url(field.svg);
+	background-size: 100%;
 }
 
 [mv-app="game"] [mv-list="usedLetters"]>[mv-list-item] {
