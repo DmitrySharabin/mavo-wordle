@@ -155,7 +155,9 @@
 				<meta property="heading" content="Mavordle [commonWords.index + 1] [attempts]/6" />
 
 				<div mv-list mv-value="usedLetters.state" mv-initial-items="0" hidden>
-					<span mv-list-item="symbol">[if($index mod 5 = 0, "\n")][if($item = correct, "🟩", if($item = elsewhere, "🟨", "⬜️"))]</span>
+					<div mv-list-item="state" mv-attribute="content">
+						<span property="symbol">[if($index mod 5 = 0, "\n") & if(state = correct, "🟩", if(state = elsewhere, "🟨", "⬜️"))]</span>
+					</div>
 				</div>
 
 				<button mv-action="share(heading & '\n' & join(symbol))">Share</button>
