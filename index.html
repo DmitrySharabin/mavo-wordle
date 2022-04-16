@@ -188,7 +188,7 @@
 
 		<!-- Credit: https://github.com/ewinapun/wordle-master -->
 		<section mv-app="commonWords" mv-source="commonWords.json" mv-bar="none">
-			<meta property="startDate" content="2022-02-01" />
+			<meta property="startDate" content="2022-02-01" mv-if="false" />
 			<meta property="words" mv-if="false" />
 			<meta property="index" content="[days($today - startDate) mod count(words)]" mv-if="false" />
 			<meta property="todaysWord" content="[get(words, index)]" mv-if="false" />
