@@ -132,7 +132,6 @@ main {
 #show-stats {
 	--bg: var(--light-gray-color);
 
-	block-size: 2.5em;
 	padding: 0.2em;
 
 	border-radius: 0.5em;
@@ -147,6 +146,14 @@ main {
 	transition: border-color 0.2s;
 
 	cursor: pointer;
+}
+
+#show-stats::after {
+	content: url(stats-chart.svg);
+
+	display: inline-block;
+	block-size: 1.8em;
+	aspect-ratio: 1;
 }
 
 #show-stats:where(:hover, :active, :focus) {

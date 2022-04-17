@@ -45,7 +45,9 @@
 					<p property="message"></p>
 				</output>
 
-				<img id="show-stats" src="stats-chart.svg" width="32" height="32" alt="Chart icon" role="button" tabindex="0" mv-action="set(statistics.isShowing, true)" aria-label="Show statistics" />
+				<button id="show-stats" mv-action="set(statistics.isShowing, true)">
+					<span class="visually-hidden">Show statistics</span>
+				</button>
 			</div>
 
 			<div mv-list="usedLetters" mv-value="if(isOver, statistics.usedLetters, list())" mv-initial-items="0">
