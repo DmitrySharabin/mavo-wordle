@@ -287,6 +287,7 @@ main {
 
 		font-size: 120%;
 		font-weight: 600;
+		line-height: 1;
 		text-transform: uppercase;
 	}
 
@@ -321,7 +322,7 @@ main {
 		block-size: 1.5em;
 		aspect-ratio: 1;
 		margin-inline-start: -0.2em;
-		margin-block-start: 0.2em;
+		margin-block-start: 0.1em;
 	}
 
 	:where([mv-app="game"] [mv-list="usedLetters"], #keyboard [mv-list="keys"]) :where(button, [property="letter"]).absent {
