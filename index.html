@@ -71,8 +71,8 @@
 
 					<button id="bs"
 						mv-action="deleteif(guessLength > 0, last(game.usedLetters)) delete(last(game.guessLetters))"
-						style="--row: 3; --column: 9" aria-label="Delete last letter"
-						disabled="[isOver]">⌫</button>
+						style="--row: 3; --column: 9"
+						disabled="[isOver]"><span class="visually-hidden">Delete last letter</span></button>
 
 					<button id="enter" mv-action="
 						if(0 < guessLength < 5, set(toast.message, 'Not enough letters') & set(toast.errorTime, seconds($now)))
