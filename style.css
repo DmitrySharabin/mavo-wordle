@@ -470,8 +470,8 @@ main {
 
 [mv-app="statistics"]>button {
 	position: absolute;
-	inset-inline-end: 0.3em;
-	inset-block-start: 0.3em;
+	inset-inline-end: 0.5em;
+	inset-block-start: 0.5em;
 
 	padding: 0;
 
@@ -484,6 +484,13 @@ main {
 	font-size: 105%;
 
 	cursor: pointer;
+}
+
+[mv-app="statistics"]>button::after {
+	content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <path d="m290 256 95-95a24 24 0 0 0-34-34l-95 95-95-95a24 24 0 0 0-34 34l95 95-95 95a24 24 0 1 0 34 34l95-95 95 95a24 24 0 0 0 34-34z"/></svg>');
+
+	display: block;
+	inline-size: 1.2em;
 }
 
 [mv-app="statistics"]>button:where(:hover, :active, :focus) {
@@ -686,6 +693,23 @@ main {
 	#ribbon img:not(:hover, :active, :focus) {
 		filter: grayscale(100%) brightness(400%);
 	}
+
+/* Credit: https://piccalil.li/quick-tip/visually-hidden/ */
+.visually-hidden {
+	block-size: auto;
+	inline-size: 1px;
+	margin: 0;
+	padding: 0;
+
+	position: absolute;
+
+	border: 0;
+
+	clip: rect(0 0 0 0);
+
+	overflow: hidden;
+	white-space: nowrap;
+}
 
 @media (max-width: 415px) {
 	header {
