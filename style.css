@@ -491,6 +491,7 @@ main {
 
 	display: block;
 	inline-size: 1.2em;
+	aspect-ratio: 1;
 }
 
 [mv-app="statistics"]>button:where(:hover, :active, :focus) {
