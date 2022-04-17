@@ -308,7 +308,7 @@ main {
 	}
 
 	#keyboard [mv-list="keys"]>button#bs::after {
-		content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23363f53" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m12 14 2-2m0 0 2-2m-2 2-2-2m2 2 2 2M3 12l6 6a2 2 0 0 0 2 1h8a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 1l-6 6z"/></svg>');
+		content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%234e5565" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m12 14 2-2m0 0 2-2m-2 2-2-2m2 2 2 2M3 12l6 6a2 2 0 0 0 2 1h8a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 1l-6 6z"/></svg>');
 
 		display: inline-block;
 		block-size: 1.5em;
