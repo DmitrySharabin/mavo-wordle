@@ -39,7 +39,7 @@
 			<meta property="guessValid" content="[guess in possibleWords.words or guess in commonWords.words]" />
 			<meta property="correctLetters" content="[unique(condense(usedLetters where state = correct).letter)]" />
 
-			<div id="toolbar">
+			<div id="toolbar" role="toolbar">
 				<output property class="toast [if(seconds($now) - errorTime < 2, visible)]" role="status">
 					<meta property="errorTime" />
 					<p property="message"></p>
@@ -95,7 +95,7 @@
 			</div>
 		</section>
 
-		<section mv-app="popup" mv-bar="none" class="[if(isShowing, visible)] game-over [game.result]">
+		<section mv-app="popup" mv-bar="none" class="[if(isShowing, visible)] game-over [game.result]" role="alertdialog" aria-modal="true">
 			<meta property="isShowing" content="[false]" />
 
 			<p property="message"></p>
@@ -108,7 +108,7 @@
 			">Close</button>
 		</section>
 
-		<section mv-app="statistics" mv-bar="none" mv-storage="local" mv-plugins="share" mv-autosave class="[if(isShowing, visible)]">
+		<section mv-app="statistics" mv-bar="none" mv-storage="local" mv-plugins="share" mv-autosave class="[if(isShowing, visible)]" role="dialog" aria-label="Game statistics">
 			<meta property="isShowing" content="[$today = date]" />
 
 			<meta property="date" />
