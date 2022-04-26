@@ -847,7 +847,7 @@ main {
 
 @media (max-width: 415px) {
 	header {
-		font-size: 60%;
+		font-size: 80%;
 	}
 
 	#mode-switch > input {
@@ -855,8 +855,7 @@ main {
 	}
 
 	#mode-switch > input::after {
-		content: "ON";
-		padding-inline: 0.6em;
+		padding-inline: 0.5em;
 	}
 
 	main {
