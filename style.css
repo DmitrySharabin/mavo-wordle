@@ -158,12 +158,13 @@ main {
 		-webkit-appearance: none;
 
 		inline-size: var(--size);
+		min-block-size: 1.1em;
 		padding: 1px;
-		margin: 0.1em;
+		margin: 0;
 
 		background: linear-gradient(to right, var(--off-c) 50%, var(--on-c) 0);
 		background-size: 200% 100%;
-		background-position: 0.5em 0;
+		background-position: 0;
 
 		background-color: var(--off-c);
 		color: whitesmoke;
@@ -182,7 +183,7 @@ main {
 
 	#mode-switch > input:checked {
 		--color: var(--on-c);
-		background-position-x: calc(var(--size) - 0.5em);
+		background-position-x: var(--size);
 	}
 
 	#mode-switch > input::before,
@@ -198,8 +199,8 @@ main {
 		z-index: 1;
 
 		display: block;
-		inline-size: 1em;
 		block-size: 1em;
+		aspect-ratio: 1;
 
 		border-radius: 1em;
 		background: whitesmoke;
@@ -219,7 +220,7 @@ main {
 		left: calc(-1 * var(--size));
 		top: 0.1em;
 
-		padding: 0 0.85em;
+		padding: 0 0.7em;
 
 		font-size: 60%;
 		line-height: 1.6;
@@ -850,15 +851,12 @@ main {
 	}
 
 	#mode-switch > input {
-		--size: 3.1em;
+		--size: 2.8em;
 	}
 
 	#mode-switch > input::after {
-		content: "ON  OFF";
-
-		padding: 0 1.7em;
-
-		font-size: 30%;
+		content: "ON";
+		padding-inline: 0.6em;
 	}
 
 	main {
