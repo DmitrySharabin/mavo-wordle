@@ -43,6 +43,7 @@ header {
 	margin-block-start: 1.3em;
 	margin-inline: auto;
 	padding: 2em;
+	padding-block-end: 0.8em;
 
 	font-size: 120%;
 	text-align: center;
@@ -127,6 +128,105 @@ main {
 		opacity: 1;
 
 		transition: opacity 200ms ease-out;
+	}
+
+#mode-switch {
+	inline-size: fit-content;
+	margin-inline: auto;
+	margin-block-start: 0.5em;
+
+	display: flex;
+	gap: 0.5em;
+	align-items: center;
+
+	font-size: 80%;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: -0.02em;
+}
+
+	/* Credit: https://github.com/designftw/website/blob/bd8213164494c82a36287335a168dba0c9356bfc/lectures/gd/talk.css#L97 */
+	#mode-switch > input {
+		--off-c: var(--yellow-color);
+		--on-c: var(--green-color);
+		--color: var(--off-c);
+		--duration: 0.4s;
+		--size: 2.8em;
+
+		position: relative;
+
+		-webkit-appearance: none;
+
+		inline-size: var(--size);
+		padding: 1px;
+		margin: 0.1em;
+
+		background: linear-gradient(to right, var(--off-c) 50%, var(--on-c) 0);
+		background-size: 200% 100%;
+		background-position: 0.5em 0;
+
+		background-color: var(--off-c);
+		color: whitesmoke;
+
+		font-size: 160%;
+		font-family: inherit;
+
+		border-radius: 1em;
+		outline: none;
+		overflow: hidden;
+
+		box-shadow: 0 0 0.5em rgb(0 0 0 / 0.1) inset, 0 0 0 1px rgb(0 0 0 / 0.2) inset;
+
+		transition: var(--duration) background-position;
+	}
+
+	#mode-switch > input:checked {
+		--color: var(--on-c);
+		background-position-x: calc(var(--size) - 0.5em);
+	}
+
+	#mode-switch > input::before,
+	#mode-switch > input::after {
+		transition: var(--duration) left;
+	}
+
+	#mode-switch > input::before {
+		content: "";
+
+		position: relative;
+		left: 0;
+		z-index: 1;
+
+		display: block;
+		inline-size: 1em;
+		block-size: 1em;
+
+		border-radius: 1em;
+		background: whitesmoke;
+
+		box-shadow: 0 0.05em 0.1em rgb(0 0 0 / 0.2), 0 0 0 1px rgb(0 0 0 / 0.2), 0 0 0 1px var(--color);
+	}
+
+	#mode-switch > input:checked::before {
+		left: calc(var(--size) - 1em - 2px);
+	}
+
+	#mode-switch > input::after {
+		content: "ON          OFF";
+		white-space: pre;
+
+		position: absolute;
+		left: calc(-1 * var(--size));
+		top: 0.1em;
+
+		padding: 0 0.85em;
+
+		font-size: 60%;
+		line-height: 1.6;
+	}
+
+	#mode-switch > input:checked::after {
+		left: 0;
 	}
 
 #show-stats {
@@ -449,8 +549,16 @@ main {
 			font-size: 100%;
 		}
 
-	[mv-app="popup"]>button {
+.info {
+	margin: 2.8em 0 2em;
+
+	font-weight: 200;
+}
+
+	:where([mv-app="popup"], .info)>button {
+		display: block;
 		margin-block: 0.7em;
+		margin-inline: auto;
 		padding: 0.7em 0.7em;
 
 		border: none;
@@ -470,8 +578,12 @@ main {
 		cursor: pointer;
 	}
 
-	[mv-app="popup"]>button:where(:hover, :active, :focus) {
+	:where([mv-app="popup"], .info)>button:where(:hover, :active, :focus) {
 		--green-color: hsl(var(--green-hs) 50%);
+	}
+
+	.info>button {
+		margin-block-start: 3em;
 	}
 
 [mv-app="statistics"]>article + article {
@@ -735,6 +847,18 @@ main {
 @media (max-width: 415px) {
 	header {
 		font-size: 60%;
+	}
+
+	#mode-switch > input {
+		--size: 3.1em;
+	}
+
+	#mode-switch > input::after {
+		content: "ON  OFF";
+
+		padding: 0 1.7em;
+
+		font-size: 30%;
 	}
 
 	main {

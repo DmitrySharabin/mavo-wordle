@@ -23,6 +23,10 @@
 		<h1 aria-label="Mavordle">
 			<img src="https://mavo.io/logo.svg" alt="Mavo logo" /><span>rdle</span>
 		</h1>
+		<label mv-app="mode" mv-storage="local" mv-autosave id="mode-switch">
+			<!-- Why [mv-action] on <input>? It's a workaround because the values of the attempt and correctLetters properties are not recalculated automatically. -->
+			Practice mode <input type="checkbox" property="practiceMode" mv-action="clear(game.usedLetters, game.guessLetters, game.guesses, game.result)" />
+		</label>
 	</header>
 
 	<main>
@@ -31,7 +35,7 @@
 			<meta property="hiddenWordLetters" content="[split(hiddenWord, '')]" mv-if="false" />
 
 			<meta property="result" />
-			<meta property="isOver" content="[$today = statistics.date]" />
+			<meta property="isOver" content="[$today = statistics.date and !mode.practiceMode]" />
 
 			<meta property="attempt" content="[count(guesses) + 1]" />
 			<meta property="guess" content="[join(guessLetters)]" />
@@ -80,8 +84,8 @@
 						if(0 < guessLength < 5, set(toast.message, 'Not enough letters') & set(toast.errorTime, seconds($now)))
 						if(guessLength = 5 and !guessValid, set(toast.message, 'Not in word list') & set(errorTime, seconds($now)) & set(toast.errorTime, seconds($now)))
 
-						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(result, 'lost') & add(group('guess': 0), statistics.games) & set(statistics.currentStreak, 0) & set(popup.message, hiddenWord) & set(popup.isShowing, true))
-						if(guessLength = 5 and guess = hiddenWord, set(result, 'won') & add(group('guess': attempt), statistics.games) & set(statistics.currentStreak, statistics.currentStreak + 1) & set(popup.message, 'You won! 🎉') & set(popup.isShowing, true))
+						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.isShowing, true))
+						if(guessLength = 5 and guess = hiddenWord, set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.isShowing, true))
 
 						if(guessLength = 5 and guessValid, add(guess, guesses) & clear(guessLetters))
 					" style="--row: 3; --column: 1" disabled="[isOver]">Enter</button>
@@ -102,16 +106,30 @@
 
 			<p property="message"></p>
 
-			<button mv-action="
+			<button mv-if="mode.practiceMode" mv-action="
+				clear(game.guesses, game.usedLetters, game.result)
+				set(commonWords.index, random(0, count(commonWords.words) - 1))
+				set(isShowing, false)
+			">Play again</button>
+
+			<button mv-if="!mode.practiceMode" mv-action="
 				set(statistics.hiddenWord, game.hiddenWord) set(statistics.guesses, game.guesses) set(statistics.states, game.usedLetters.state) set(statistics.result, game.result)
+
+				addif(game.result = lost, group('guess': 0), statistics.games)
+				setif(game.result = lost, statistics.currentStreak, 0)
+
+				addif(game.result = won, group('guess': count(game.guesses)), statistics.games)
+				setif(game.result = won, statistics.currentStreak, statistics.currentStreak + 1)
+
 				setif(statistics.currentStreak > statistics.maxStreak, statistics.maxStreak, statistics.currentStreak)
 				set(statistics.date, $today)
+
 				set(isShowing, false)
 			">Close</button>
 		</section>
 
 		<section mv-app="statistics" mv-bar="none" mv-storage="local" mv-plugins="share" mv-autosave class="[if(isShowing, visible)]" role="dialog" aria-label="Game statistics">
-			<meta property="isShowing" content="[$today = date]" />
+			<meta property="isShowing" content="[$today = date and !mode.practiceMode]" />
 
 			<meta property="date" />
 			<meta property="result" />
@@ -120,8 +138,13 @@
 			<meta property="states" mv-if="false" />
 
 			<button mv-action="set(isShowing, false)"><span class="visually-hidden">Close</span></button>
-			
-			<article class="stats">
+
+			<p class="info" mv-if="mode.practiceMode">
+				We donʼt gather statistics in practice mode.
+				<button mv-action="set(mode.practiceMode, false)">Turn off practice mode</button>
+			</p>
+
+			<article class="stats" mv-if="!mode.practiceMode">
 				<h2>Statistics</h2>
 				
 				<meta property="wins" content="[count(games where guess > 0)]" />
@@ -132,7 +155,7 @@
 				<span title="Max Streak" property="maxStreak" mv-default>0</span>
 			</article>
 
-			<article class="guess-distribution">
+			<article class="guess-distribution" mv-if="!mode.practiceMode">
 				<h2>Guess Distribution</h2>
 
 				<p mv-if="played = 0">No Data</p>
@@ -144,7 +167,7 @@
 				</ol>
 			</article>
 
-			<article mv-if="$today = date" class="next-mavordle">
+			<article mv-if="$today = date and !mode.practiceMode" class="next-mavordle">
 				<meta property="tomorrow" content="[$today + 1 * day()]" />
 				<meta property="difference" content="[tomorrow - $now]" />
 
@@ -192,7 +215,7 @@
 		<section mv-app="commonWords" mv-source="commonWords.json" mv-bar="none">
 			<meta property="startDate" content="2022-02-01" mv-if="false" />
 			<meta property="words" mv-if="false" />
-			<meta property="index" content="[days($today - startDate) mod count(words)]" mv-if="false" />
+			<meta property="index" content="[if(mode.practiceMode, random(0, count(words) - 1), days($today - startDate) mod count(words))]" mv-if="false" />
 			<meta property="todaysWord" content="[get(words, index)]" mv-if="false" />
 		</section>
 	</main>
