@@ -30,7 +30,7 @@
 	</header>
 
 	<main>
-		<section mv-app="game" mv-bar="none" class="[if(popup.isShowing or statistics.isShowing, backdrop)]">
+		<section mv-app="game" mv-bar="none" class="[if(popup.isShowing or statistics.isShowing, backdrop)] [if(!mode.practiceMode, result)]">
 			<meta property="hiddenWord" content="[if(isOver, statistics.hiddenWord, commonWords.todaysWord)]" mv-if="false" />
 			<meta property="hiddenWordLetters" content="[split(hiddenWord, '')]" mv-if="false" />
 
@@ -41,7 +41,7 @@
 			<meta property="guess" content="[join(guessLetters)]" />
 			<meta property="guessLength" content="[len(guess)]" />
 			<meta property="guessValid" content="[guess in possibleWords.words or guess in commonWords.words]" />
-			<meta property="correctLetters" content="[unique(condense(usedLetters where state = correct).letter)]" />
+			<meta property="correctLetters" content="[unique(condense(usedLetters where (state = correct and !stateHidden)).letter)]" />
 
 			<div id="toolbar" role="toolbar">
 				<output property class="toast [if(seconds($now) - errorTime < 2, visible)]" role="status">
@@ -58,11 +58,12 @@
 				<div mv-list-item>
 					<meta property="row" content="[floor($index / 5)]" />
 					<meta property="thisRowLetters" content="[split(get(guesses, row), '')]" />
+					<meta property="stateHidden" content="[row >= attempt - 1]" />
 					<meta property="errorTime" />
 					<meta property="state"
-						content="[if(row < attempt - 1, if(get(hiddenWordLetters, $index mod 5) = letter, correct, if(letter in hiddenWordLetters, if(letter in filter(hiddenWordLetters, hiddenWordLetters = thisRowLetters) and count(filter(hiddenWordLetters, hiddenWordLetters != letter)) = 4, absent, elsewhere), absent)))]" />
+						content="[if(get(hiddenWordLetters, $index mod 5) = letter, correct, if(letter in hiddenWordLetters, if(letter in filter(hiddenWordLetters, hiddenWordLetters = thisRowLetters) and count(filter(hiddenWordLetters, hiddenWordLetters != letter)) = 4, absent, elsewhere), absent))]" />
 
-					<span property="letter" style="--row: [row + 1]" class="[state] [if(row + 1 = attempt and seconds($now) - errorTime <= 1, shake)] [if(($index mod 5 + 1) <= guessLength or row < attempt - 1, idle)]"></span>
+					<span property="letter" style="--row: [row + 1]" class="[if(!stateHidden, state)] [if(row + 1 = attempt and seconds($now) - errorTime <= 1, shake)] [if(($index mod 5 + 1) <= guessLength or row < attempt - 1, idle)]"></span>
 				</div>
 			</div>
 
@@ -84,10 +85,28 @@
 						if(0 < guessLength < 5, set(toast.message, 'Not enough letters') & set(toast.errorTime, seconds($now)))
 						if(guessLength = 5 and !guessValid, set(toast.message, 'Not in word list') & set(errorTime, seconds($now)) & set(toast.errorTime, seconds($now)))
 
-						if(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, set(result, 'lost') & set(popup.message, hiddenWord) & set(popup.isShowing, true))
-						if(guessLength = 5 and guess = hiddenWord, set(result, 'won') & set(popup.message, 'You won! 🎉') & set(popup.isShowing, true))
+						setif(guessLength = 5 and attempt = 6 and guessValid and guess != hiddenWord, result, lost)
+						setif(guessLength = 5 and guess = hiddenWord, result, won)
 
 						if(guessLength = 5 and guessValid, add(guess, guesses) & clear(guessLetters))
+
+						if(!mode.practiceMode and result = lost, set(toast.message, hiddenWord) & set(toast.errorTime, 10000 * seconds($now)))
+						addif(!mode.practiceMode and result = lost, group('guess': 0), statistics.games)
+						setif(!mode.practiceMode and result = lost, statistics.currentStreak, 0)
+
+						addif(!mode.practiceMode and result = won, group('guess': count(guesses)), statistics.games)
+						setif(!mode.practiceMode and result = won, statistics.currentStreak, statistics.currentStreak + 1)
+
+						if(!mode.practiceMode and result,
+							set(statistics.hiddenWord, hiddenWord) & set(statistics.guesses, guesses) &
+							set(statistics.states, usedLetters.state) & set(statistics.result, result) &
+							setif(statistics.currentStreak > statistics.maxStreak, statistics.maxStreak, statistics.currentStreak) &
+							set(statistics.date, $today)
+						)
+
+						setif(mode.practiceMode and result = lost, popup.message, hiddenWord)
+						setif(mode.practiceMode and result = won, popup.message, 'You won! 🎉')
+						setif(mode.practiceMode and result, popup.isShowing, true)
 					" style="--row: 3; --column: 1" disabled="[isOver]">Enter</button>
 				</div>
 			</div>
@@ -106,30 +125,15 @@
 
 			<p property="message"></p>
 
-			<button mv-if="mode.practiceMode" mv-action="
+			<button mv-action="
 				clear(game.guesses, game.usedLetters, game.result)
 				set(commonWords.index, random(0, count(commonWords.words) - 1))
 				set(isShowing, false)
 			">Play again</button>
-
-			<button mv-if="!mode.practiceMode" mv-action="
-				set(statistics.hiddenWord, game.hiddenWord) set(statistics.guesses, game.guesses) set(statistics.states, game.usedLetters.state) set(statistics.result, game.result)
-
-				addif(game.result = lost, group('guess': 0), statistics.games)
-				setif(game.result = lost, statistics.currentStreak, 0)
-
-				addif(game.result = won, group('guess': count(game.guesses)), statistics.games)
-				setif(game.result = won, statistics.currentStreak, statistics.currentStreak + 1)
-
-				setif(statistics.currentStreak > statistics.maxStreak, statistics.maxStreak, statistics.currentStreak)
-				set(statistics.date, $today)
-
-				set(isShowing, false)
-			">Close</button>
 		</section>
 
-		<section mv-app="statistics" mv-bar="none" mv-storage="local" mv-plugins="share" mv-autosave class="[if(isShowing, visible)]" role="dialog" aria-label="Game statistics">
-			<meta property="isShowing" content="[$today = date and !mode.practiceMode]" />
+		<section mv-app="statistics" mv-bar="none" mv-storage="local" mv-plugins="share" mv-autosave class="[if(isShowing, visible)] [game.result]" role="dialog" aria-label="Game statistics">
+			<meta property="isShowing" content="[$today = date and !mode.practiceMode and game.result != lost]" />
 
 			<meta property="date" />
 			<meta property="result" />

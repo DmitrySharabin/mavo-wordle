@@ -282,6 +282,36 @@ main {
 	background-size: 100%;
 }
 
+@keyframes boom {
+	50% {
+		transform: scale(1.5);
+	}
+}
+
+@keyframes shrink {
+	to {
+		transform: scale(0);
+	}
+}
+
+[mv-app="game"].won::before {
+	content: "🎉";
+
+	display: grid;
+	place-items: center;
+
+	position: absolute;
+	inset: 0;
+
+	margin-block-start: -20vh;
+
+	font-size: 20vw;
+
+	z-index: 1;
+
+	animation: boom 0.8s, shrink 0.5s 1.5s forwards;
+}
+
 [mv-app="game"] [mv-list="usedLetters"]>[mv-list-item] {
 	display: contents;
 }
@@ -357,6 +387,7 @@ main {
 	inset: 0;
 
 	background-color: rgb(255 255 255 / 50%);
+	transition: background-color 0.2s;
 }
 
 #keyboard [mv-list="keys"] {
@@ -478,6 +509,10 @@ main {
 	opacity: revert;
 
 	transition: opacity 0.15s;
+}
+
+[mv-app="statistics"].visible.won {
+	transition-delay: 2s;
 }
 
 	[mv-app="popup"]>[property="message"] {
