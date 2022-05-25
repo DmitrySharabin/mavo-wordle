@@ -520,11 +520,18 @@ main {
 	z-index: 2;
 }
 
+@keyframes dialog-appear {
+	from {
+		transform: translate(-50%, -10vh);
+		opacity: 0;
+	}
+}
 :where([mv-app="popup"], [mv-app="statistics"]).visible {
 	visibility: revert;
 	opacity: revert;
 
-	transition: opacity 0.15s;
+	will-change: transform;
+	animation: dialog-appear .5s backwards;
 }
 
 [mv-app="statistics"].visible.won {
