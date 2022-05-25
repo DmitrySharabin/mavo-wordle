@@ -535,7 +535,7 @@ main {
 }
 
 [mv-app="statistics"].visible.won {
-	transition-delay: 3s;
+	animation-delay: 3.3s;
 }
 
 	[mv-app="popup"]>[property="message"] {
