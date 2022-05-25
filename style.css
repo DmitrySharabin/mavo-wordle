@@ -312,7 +312,7 @@ main {
 	margin-inline: -100vh;
 	margin-block: -40vh -20vh;
 
-	font-size: 9vw;
+	font-size: min(9vw, 5em);
 	font-weight: 900;
 	text-transform: uppercase;
 
@@ -325,7 +325,7 @@ main {
 	--balloon: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="20">🎈</text></svg>');
 	background: var(--balloon) 0 0 / 5em, var(--balloon) 1em 0 / 3em, var(--balloon) 2em 0 / 10em;
 
-	animation: fade-in 0.3s linear, fly-up 1.5s 2 linear, fade-out 0.5s 2.5s linear forwards;
+	animation: fade-in 0.3s linear, bounce 0.5s 0.2s, fly-up 1.5s 2 linear, fade-out 0.5s 2.5s linear forwards;
 }
 
 [mv-app="game"] [mv-list="usedLetters"]>[mv-list-item] {
