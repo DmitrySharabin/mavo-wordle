@@ -282,20 +282,26 @@ main {
 	background-size: 100%;
 }
 
-@keyframes boom {
-	50% {
-		transform: scale(1.5);
+@keyframes fly-up {
+	to {
+		background-position-y: -5em, -3em, -10em;
 	}
 }
 
-@keyframes shrink {
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+}
+
+@keyframes fade-out {
 	to {
-		transform: scale(0);
+		opacity: 0;
 	}
 }
 
 [mv-app="game"].won::before {
-	content: "🎉";
+	content: "You won! 🎊";
 
 	display: grid;
 	place-items: center;
@@ -303,13 +309,23 @@ main {
 	position: absolute;
 	inset: 0;
 
-	margin-block-start: -20vh;
+	margin-inline: -100vh;
+	margin-block: -40vh -20vh;
 
-	font-size: 20vw;
+	font-size: 9vw;
+	font-weight: 900;
+	text-transform: uppercase;
+
+	color: hsl(350 80% 55%);
+	filter: drop-shadow(0.03em 0.03em 0.03em var(--dark-gray-color));
 
 	z-index: 1;
+	pointer-events: none;
 
-	animation: boom 0.8s, shrink 0.5s 1.5s forwards;
+	--balloon: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="20">🎈</text></svg>');
+	background: var(--balloon) 0 0 / 5em, var(--balloon) 1em 0 / 3em, var(--balloon) 2em 0 / 10em;
+
+	animation: fade-in 0.3s linear, fly-up 1.5s 2 linear, fade-out 0.5s 2.5s linear forwards;
 }
 
 [mv-app="game"] [mv-list="usedLetters"]>[mv-list-item] {
@@ -386,7 +402,7 @@ main {
 	position: fixed;
 	inset: 0;
 
-	background-color: rgb(255 255 255 / 50%);
+	background-color: rgb(255 255 255 / 70%);
 	transition: background-color 0.2s;
 }
 
@@ -512,7 +528,7 @@ main {
 }
 
 [mv-app="statistics"].visible.won {
-	transition-delay: 2s;
+	transition-delay: 3s;
 }
 
 	[mv-app="popup"]>[property="message"] {
