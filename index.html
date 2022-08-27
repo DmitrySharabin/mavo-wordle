@@ -190,7 +190,7 @@
 					</div>
 				</div>
 
-				<button mv-action="share(heading & '\n' & join(symbol))">Share</button>
+				<button mv-action="share(text: heading & '\n' & join(symbol))">Share</button>
 			</article>
 
 			<div mv-list="usedLetters" mv-value="split(join(guesses), '')" mv-initial-items="0" hidden>
