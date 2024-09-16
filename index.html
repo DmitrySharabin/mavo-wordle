@@ -72,6 +72,7 @@
 					<button mv-list-item mv-group
 						mv-action="if(guessLength < 5, add(group('letter': key), usedLetters) & add(key, guessLetters))"
 						mv-attribute="none"
+						id="key-[key]"
 						class="[if(attempt > 1, if(contains(join(guesses), key), if(key in correctLetters, correct, if(contains(hiddenWord, key), elsewhere, absent))))]"
 						style="--row: [row]"
 						disabled="[isOver]">[key]</button>
@@ -235,6 +236,23 @@
 			</p>
 		</section>
 	</footer>
+
+	<script>
+		// Make the game playable with the keyboard
+		document.addEventListener("keyup", event => {
+			let key = document.getElementById("key-" + event.key.toLowerCase());
+			if (key) {
+				event.preventDefault();
+				key.click();
+			}
+			else if (event.key === "Enter") {
+				document.getElementById("enter").click();
+			}
+			else if (event.key === "Backspace") {
+				document.getElementById("bs").click();
+			}
+		});
+	</script>
 
 </body>
 
