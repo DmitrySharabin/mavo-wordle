@@ -240,16 +240,12 @@
 	<script>
 		// Make the game playable with the keyboard
 		document.addEventListener("keyup", event => {
-			let key = document.getElementById("key-" + event.key.toLowerCase());
-			if (key) {
+			let id = event.key === "Backspace" ? "bs" : event.key === "Enter" ? "enter" : "key-" + event.key.toLowerCase();
+			let button = document.getElementById(id);
+			if (button) {
 				event.preventDefault();
-				key.click();
-			}
-			else if (event.key === "Enter") {
-				document.getElementById("enter").click();
-			}
-			else if (event.key === "Backspace") {
-				document.getElementById("bs").click();
+				button.focus();
+				button.click();
 			}
 		});
 	</script>
